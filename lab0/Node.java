@@ -29,6 +29,11 @@ public class Node <T>
 		data = t;
 	}
 
+	public void setNext(Node newNode)
+	{
+		next = newNode;
+	}
+
 	// public static void main(String[] args)
 	// {
 	// 	Integer inumber = new Integer(123);

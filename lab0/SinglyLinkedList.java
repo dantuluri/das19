@@ -1,7 +1,7 @@
-import java.util.NoSuchElementException;
+import java.io.*;
+import java.util.*;
 
-
-public class SinglyLinkedList
+public class SinglyLinkedList <T>
 {
 	private Node head;
 	private Node tail;
@@ -12,16 +12,36 @@ public class SinglyLinkedList
 		tail = null;
 	}
 
-	public void insert(T curNode, T newNode)
+	public static void main(String[]args)
+	{
+		SinglyLinkedList list = new SinglyLinkedList();
+		list.run();
+	}
+
+	public void run()
+	{
+		printList();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		insert(head, new Node("surya"));
+		printList();
+		System.out.println();
+		insert(head, new Node("dantuluri"));
+		printList();
+		System.out.println();
+	}
+
+	public void insert(Node curNode, Node newNode)
 	{
 		//Empty list
 		if(head == null)
 		{
-			head = new Node(data);
-			tail = new Node(data);
+			head = newNode;
+			tail = newNode;
 		}
 		//All else
-		else if(curNode==tail)
+		else if(curNode.get().equals(tail.get()))
 		{
 			tail.setNext(newNode);
 			tail = newNode;
@@ -91,13 +111,13 @@ public class SinglyLinkedList
 	// }
 
 
-	// public void printList()
-	// {
-	// 	Node temp = head; // start at the head node
-	// 	while (temp != null)
-	// 	{
-	// 		System.out.print(temp.getValue() + " ");
-	// 		temp = temp.getNext(); // go to next node
-	// 	}
-	// }
+	public void printList()
+	{
+		Node temp = head; // start at the head node
+		while (temp != null)
+		{
+			System.out.print(temp.get() + " ");
+			temp = temp.next; // go to next node
+		}
+	}
 }
