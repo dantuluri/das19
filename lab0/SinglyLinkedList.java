@@ -30,6 +30,7 @@ public class SinglyLinkedList <T>
 		insert(head, new Node("dantuluri"));
 		printList();
 		System.out.println();
+		delete(head);
 	}
 
 	public void insert(Node curNode, Node newNode)
@@ -37,20 +38,54 @@ public class SinglyLinkedList <T>
 		//Empty list
 		if(head == null)
 		{
+			System.out.println("first");
 			head = newNode;
 			tail = newNode;
 		}
 		//All else
 		else if(curNode.get().equals(tail.get()))
 		{
+			System.out.println("second");
 			tail.setNext(newNode);
 			tail = newNode;
 		}
 		else
 		{
+			System.out.println("third");
 			newNode.next = curNode.next;
 			curNode.next = newNode;
 		}
+	}
+
+	public void delete(Node curNode)
+	{
+		// Special case, remove head
+		if (curNode==head) 
+		{
+			System.out.println("curNode is head");
+
+			head = curNode;
+			head.setNext(curNode.next);
+
+
+			sucNode = list->head->next
+			list->head = sucNode
+
+			if (sucNode is null) 
+			{ 
+				// Removed last item
+				list->tail = null
+		}
+		// else if (curNode->next is not null) 
+		// {
+		// 	sucNode = curNode->next->next
+		// 	curNode->next = sucNode
+
+		// 	if (sucNode is null) 
+		// 	{ // Removed tail
+		// 		list->tail = curNode
+		// 	}
+		// }
 	}
 
 	// public Object gethead()
