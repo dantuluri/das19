@@ -12,11 +12,14 @@ type of object stored in it.
 public class Node <T>
 {
 	T data;
+	Node next;
 
 	public Node(T t)
 	{
 		data = t;
+		next = null;
 	}
+
 	public T get()
 	{
 		return data;
@@ -26,22 +29,22 @@ public class Node <T>
 		data = t;
 	}
 
-	public static void main(String[] args)
-	{
-		Integer inumber = new Integer(123);
-		Node<Integer> inode = new Node<Integer>(inumber);
-		System.out.println(inode.get());
+	// public static void main(String[] args)
+	// {
+	// 	Integer inumber = new Integer(123);
+	// 	Node<Integer> inode = new Node<Integer>(inumber);
+	// 	System.out.println(inode.get());
 		
-		String astring = "abc";
-		Node<String> snode = new Node<String>(astring);
-		System.out.println(snode.get());
+	// 	String astring = "abc";
+	// 	Node<String> snode = new Node<String>(astring);
+	// 	System.out.println(snode.get());
 		
-		ArrayList<String> alist = new ArrayList<String>();
-		Node<ArrayList<String>> anode = new Node<ArrayList<String>>(alist);
-		anode.get().add("ABC");
-		anode.get().add("DEF");
-		anode.get().add("GHI");
-		for (int x=0; x<anode.get().size(); x++)
-			System.out.println(anode.get().get(x));
-	} 
+	// 	ArrayList<String> alist = new ArrayList<String>();
+	// 	Node<ArrayList<String>> anode = new Node<ArrayList<String>>(alist);
+	// 	anode.get().add("ABC");
+	// 	anode.get().add("DEF");
+	// 	anode.get().add("GHI");
+	// 	for (int x=0; x<anode.get().size(); x++)
+	// 		System.out.println(anode.get().get(x));
+	// } 
 }

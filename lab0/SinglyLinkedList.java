@@ -1,5 +1,6 @@
 import java.util.NoSuchElementException;
 
+
 public class SinglyLinkedList
 {
 	private Node head;
@@ -11,101 +12,92 @@ public class SinglyLinkedList
 		tail = null;
 	}
 
-
-	public void insert(Node curNode, Node newNode)
+	public void insert(T curNode, T newNode)
 	{
-		if (head == null)
+		//Empty list
+		if(head == null)
 		{
-			list->head = newNode
-			list->tail = newNode
+			head = new Node(data);
+			tail = new Node(data);
 		}
-
-		else if (curNode == list->tail) { // Insert after tail
-			list->tail->next = newNode
-			list->tail = newNode
-		}
-		else {
-			newNode->next = curNode->next
-			curNode->next = newNode
-		}
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-	public Object getFirst()
-	{
-		if (first == null)
+		//All else
+		else if(curNode==tail)
 		{
-			throw new NoSuchElementException();
+			tail.setNext(newNode);
+			tail = newNode;
 		}
 		else
 		{
-			return first.getValue();
+			newNode.next = curNode.next;
+			curNode.next = newNode;
 		}
 	}
 
-	public Object getLast()
-	{
-		ListNode temp = first;
-		while(temp.getNext() != null)
-		{
-			temp = temp.getNext();
-		}
-		return temp.getValue();
-	}
+	// public Object gethead()
+	// {
+	// 	if (head == null)
+	// 	{
+	// 		throw new NoSuchElementException();
+	// 	}
+	// 	else
+	// 	{
+	// 		return head.getValue();
+	// 	}
+	// }
 
-	public void addFirst(Object value)
-	{
-		first = new ListNode(value, first);
-	}
+	// public Object gettail()
+	// {
+	// 	ListNode temp = head;
+	// 	while(temp.getNext() != null)
+	// 	{
+	// 	   temp = temp.getNext();
+	// 	}
+	// 	return temp.getValue();
+	// }
 
-	public void addLast(Object value)
-	{
-		if(first == null)
-		{
-			first = new ListNode(value, null);
-			last = new ListNode(value, null);
-		}
-		else
-		{
-			ListNode temp = first;
-			while(temp.getNext() != null)
-			{
-				temp = temp.getNext();
-			}
-			temp.setNext(new ListNode(value, null));
-		}
-	}
+	// public void addhead(Object value)
+	// {
+	// 	head = new ListNode(value, head);
+	// }
 
-	public int size()
-	{
-		int sizeCount = 0;
-		ListNode temp = first; // start at the first node
-		while (temp != null)
-		{
-			sizeCount++;
-			temp = temp.getNext(); // go to next node
-		}
-		return sizeCount;
-	}
+	// public void addtail(Object value)
+	// {
+	// 	if(head == null)
+	// 	{
+	// 		head = new ListNode(value, null);
+	// 		tail = new ListNode(value, null);
+	// 	}
+	// 	else
+	// 	{
+	// 		ListNode temp = head;
+	// 		while(temp.getNext() != null)
+	// 		{
+	// 		   temp = temp.getNext();
+	// 		}
+	// 		temp.setNext(new ListNode(value, null));
+	// 	}
+	// }
+
+	// public int size()
+	// {
+	// 	int sizeCount = 0;
+	// 	Node temp = head; // start at the head node
+	// 	while (temp != null)
+	// 	{
+	// 		sizeCount++;
+	// 		temp = temp.getNext(); // go to next node
+	// 	}
+	// 	return sizeCount;
+	// }
 
 
-	public void printList()
-	{
-		ListNode temp = first; // start at the first node
-		while (temp != null)
-		{
-			System.out.print(temp.getValue() + " ");
-			temp = temp.getNext(); // go to next node
-		}
-	}
+	// public void printList()
+	// {
+	// 	Node temp = head; // start at the head node
+	// 	while (temp != null)
+	// 	{
+	// 		System.out.print(temp.getValue() + " ");
+	// 		temp = temp.getNext(); // go to next node
+	// 	}
+	// }
 }
