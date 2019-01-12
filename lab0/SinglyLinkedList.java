@@ -28,32 +28,51 @@ public class SinglyLinkedList <T>
 
 	public void run()
 	{
+		//Making some nodes
 		Node apple = new Node("apple");
 		Node peach = new Node("peach");
 		Node carrot = new Node("carrot");
 		Node strawberry = new Node("strawberry");
 		Node banana = new Node("banana");
+
+		//Inserting the nodes into the Singly Linked List
 		insert(head, apple);
 		insert(apple, peach);
 		insert(peach, carrot);
 		insert(carrot, strawberry);
 		insert(strawberry, banana);
+
+		//Print initial list
+		System.out.println();
 		printList();
+		//Should print out: apple peach carrot strawberry banana 
+
+		//Removing "strawberry" by removing Node before (this is how the book implements it)
 		System.out.println("Removing strawberry");
 		delete(carrot);
 		printList();
+		//Should print out: apple peach carrot strawberry banana 
+
+		//Same aforementioned logic is used for consequetive calls to delete nodes
 		System.out.println("Removing banana");
 		delete(carrot);
 		printList();
+		//Should print out: apple peach carrot strawberry banana 
+
 		System.out.println("Removing apple");
 		delete(null);
 		printList();
+		//Should print out: apple peach carrot strawberry banana 
+
 		System.out.println("Removing peach");
 		delete(null);
 		printList();
+		//Should print out: apple peach carrot strawberry banana 
+
 		System.out.println("Removing carrot");
 		delete(null);
 		printList();
+		//Should be empty list by now since all nodes are deleted
 	}
 
 	/** Inserts Node newNode after Node curNode
@@ -68,12 +87,13 @@ public class SinglyLinkedList <T>
 			head = newNode;
 			tail = newNode;
 		}
-		//All else
+		//Insert after tail
 		else if(curNode.get().equals(tail.get()))
 		{
 			tail.setNext(newNode);
 			tail = newNode;
 		}
+		//Insert in middle
 		else
 		{
 			newNode.next = curNode.next;
@@ -86,22 +106,29 @@ public class SinglyLinkedList <T>
 	*/
 	public void delete(Node curNode)
 	{
+		//Temporary Node
 		Node sucNode;
 
+		//Remove head
 		if (curNode==null&&head!=null)
 		{
 			sucNode = head.next;
 			head = sucNode;
 
+			//Removed last item
 			if(sucNode==null)
 			{
 				tail = null;
 			}
 		}
+
+		//Remove any node
 		else if(curNode.next!=null)
 		{ 
 			sucNode = curNode.next.next;
 			curNode.setNext(sucNode);
+
+			//Remove tail
 			if(sucNode==null)
 			{
 				tail = curNode;
@@ -109,6 +136,8 @@ public class SinglyLinkedList <T>
 		}
 	}
 
+	/** Prints Singly Linked List
+	*/
 	public void printList()
 	{
 		Node temp = head; // start at the head node
@@ -117,6 +146,7 @@ public class SinglyLinkedList <T>
 			System.out.print(temp.get() + " ");
 			temp = temp.next; // go to next node
 		}
+		System.out.println();
 		System.out.println();
 	}
 }
