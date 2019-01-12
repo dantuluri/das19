@@ -33,6 +33,7 @@ public class SinglyLinkedList <T>
 		delete(head);
 	}
 
+	//insert after
 	public void insert(Node curNode, Node newNode)
 	{
 		//Empty list
@@ -57,35 +58,34 @@ public class SinglyLinkedList <T>
 		}
 	}
 
+	//delete after
 	public void delete(Node curNode)
 	{
+		Node sucNode;
+		// Node temp = head;
+		// temp.setNext(head.next);
+		
 		// Special case, remove head
-		if (curNode==head) 
+		if (curNode==null&&head!=null)
 		{
-			System.out.println("curNode is head");
+			sucNode = head.next;
+			head = sucNode;
 
-			head = curNode;
-			head.setNext(curNode.next);
-
-
-			sucNode = list->head->next
-			list->head = sucNode
-
-			if (sucNode is null) 
-			{ 
-				// Removed last item
-				list->tail = null
+			if(sucNode==null)
+			{
+				tail = null;
+			}
 		}
-		// else if (curNode->next is not null) 
-		// {
-		// 	sucNode = curNode->next->next
-		// 	curNode->next = sucNode
+		else if(curNode.next!=null)
+		{
+			sucNode = curNode.next.next;
+			curNode.next = sucNode;
 
-		// 	if (sucNode is null) 
-		// 	{ // Removed tail
-		// 		list->tail = curNode
-		// 	}
-		// }
+			if(sucNode==null)
+			{
+				tail = curNode;
+			}
+		}
 	}
 
 	// public Object gethead()
