@@ -56,67 +56,54 @@ public class SinglyLinkedList <T>
 		printList();
 	}
 
-	//insert after
+	/** Inserts Node newNode after Node curNode
+	*  @param curNode Node previous to inserted node
+	*  @param newNode Node that is inserted after curNode
+	*/
 	public void insert(Node curNode, Node newNode)
 	{
 		//Empty list
 		if(head == null)
 		{
-			// System.out.println("first");
 			head = newNode;
 			tail = newNode;
 		}
 		//All else
 		else if(curNode.get().equals(tail.get()))
 		{
-			// System.out.println("second");
 			tail.setNext(newNode);
 			tail = newNode;
 		}
 		else
 		{
-			// System.out.println("third");
 			newNode.next = curNode.next;
 			curNode.next = newNode;
 		}
 	}
 
-	//delete after
+	/** Deletes Node after Node curNode.
+	*  @param curNode Node previous to deleted node
+	*/
 	public void delete(Node curNode)
 	{
 		Node sucNode;
-		// Node temp = head;
-		// temp.setNext(head.next);
-		
-		// Special case, remove head
+
 		if (curNode==null&&head!=null)
 		{
-			// System.out.println("First");
 			sucNode = head.next;
 			head = sucNode;
 
 			if(sucNode==null)
 			{
-				// System.out.println("Inside First");
 				tail = null;
 			}
 		}
 		else if(curNode.next!=null)
 		{ 
 			sucNode = curNode.next.next;
-			// System.out.println();
-			// System.out.println();
-			// System.out.println();
-			// System.out.println();
-			// System.out.println("Sucnode");
-			// System.out.println(sucNode.get());
-			// System.out.println("Sucnode end");
-
-			curNode.next = sucNode;
-			// System.out.println("Second");
+			curNode.setNext(sucNode);
 			if(sucNode==null)
 			{
-				// System.out.println("Inside Second");
 				tail = curNode;
 			}
 		}
