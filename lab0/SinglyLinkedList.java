@@ -20,17 +20,20 @@ public class SinglyLinkedList <T>
 
 	public void run()
 	{
+		Node apple = new Node("apple");
+		Node peach = new Node("peach");
+		Node carrot = new Node("carrot");
+		Node strawberry = new Node("strawberry");
+		Node banana = new Node("banana");
+		insert(head, apple);
+		insert(apple, peach);
+		insert(peach, carrot);
+		insert(carrot, strawberry);
+		insert(strawberry, banana);
 		printList();
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		insert(head, new Node("surya"));
+		System.out.println("Removing carrot");
+		delete(carrot);
 		printList();
-		System.out.println();
-		insert(head, new Node("dantuluri"));
-		printList();
-		System.out.println();
-		delete(head);
 	}
 
 	//insert after
@@ -39,20 +42,20 @@ public class SinglyLinkedList <T>
 		//Empty list
 		if(head == null)
 		{
-			System.out.println("first");
+			// System.out.println("first");
 			head = newNode;
 			tail = newNode;
 		}
 		//All else
 		else if(curNode.get().equals(tail.get()))
 		{
-			System.out.println("second");
+			// System.out.println("second");
 			tail.setNext(newNode);
 			tail = newNode;
 		}
 		else
 		{
-			System.out.println("third");
+			// System.out.println("third");
 			newNode.next = curNode.next;
 			curNode.next = newNode;
 		}
@@ -68,11 +71,13 @@ public class SinglyLinkedList <T>
 		// Special case, remove head
 		if (curNode==null&&head!=null)
 		{
+			System.out.println("First");
 			sucNode = head.next;
 			head = sucNode;
 
 			if(sucNode==null)
 			{
+				System.out.println("Inside First");
 				tail = null;
 			}
 		}
@@ -80,9 +85,10 @@ public class SinglyLinkedList <T>
 		{
 			sucNode = curNode.next.next;
 			curNode.next = sucNode;
-
+			System.out.println("Second");
 			if(sucNode==null)
 			{
+				System.out.println("Inside Second");
 				tail = curNode;
 			}
 		}
@@ -154,5 +160,6 @@ public class SinglyLinkedList <T>
 			System.out.print(temp.get() + " ");
 			temp = temp.next; // go to next node
 		}
+		System.out.println();
 	}
 }
