@@ -1,6 +1,14 @@
 import java.io.*;
 import java.util.*;
 
+/**
+ * SinglyLinkedList.java
+ * Singly Linked List that links any type of data
+ * @author Surya Dantuluri
+ * @version 1.0
+ * @since 8/17/2017
+ */
+
 public class SinglyLinkedList <T>
 {
 	private Node head;
@@ -31,8 +39,20 @@ public class SinglyLinkedList <T>
 		insert(carrot, strawberry);
 		insert(strawberry, banana);
 		printList();
-		System.out.println("Removing carrot");
+		System.out.println("Removing strawberry");
 		delete(carrot);
+		printList();
+		System.out.println("Removing banana");
+		delete(carrot);
+		printList();
+		System.out.println("Removing apple");
+		delete(null);
+		printList();
+		System.out.println("Removing peach");
+		delete(null);
+		printList();
+		System.out.println("Removing carrot");
+		delete(null);
 		printList();
 	}
 
@@ -71,86 +91,36 @@ public class SinglyLinkedList <T>
 		// Special case, remove head
 		if (curNode==null&&head!=null)
 		{
-			System.out.println("First");
+			// System.out.println("First");
 			sucNode = head.next;
 			head = sucNode;
 
 			if(sucNode==null)
 			{
-				System.out.println("Inside First");
+				// System.out.println("Inside First");
 				tail = null;
 			}
 		}
 		else if(curNode.next!=null)
-		{
+		{ 
 			sucNode = curNode.next.next;
+			// System.out.println();
+			// System.out.println();
+			// System.out.println();
+			// System.out.println();
+			// System.out.println("Sucnode");
+			// System.out.println(sucNode.get());
+			// System.out.println("Sucnode end");
+
 			curNode.next = sucNode;
-			System.out.println("Second");
+			// System.out.println("Second");
 			if(sucNode==null)
 			{
-				System.out.println("Inside Second");
+				// System.out.println("Inside Second");
 				tail = curNode;
 			}
 		}
 	}
-
-	// public Object gethead()
-	// {
-	// 	if (head == null)
-	// 	{
-	// 		throw new NoSuchElementException();
-	// 	}
-	// 	else
-	// 	{
-	// 		return head.getValue();
-	// 	}
-	// }
-
-	// public Object gettail()
-	// {
-	// 	ListNode temp = head;
-	// 	while(temp.getNext() != null)
-	// 	{
-	// 	   temp = temp.getNext();
-	// 	}
-	// 	return temp.getValue();
-	// }
-
-	// public void addhead(Object value)
-	// {
-	// 	head = new ListNode(value, head);
-	// }
-
-	// public void addtail(Object value)
-	// {
-	// 	if(head == null)
-	// 	{
-	// 		head = new ListNode(value, null);
-	// 		tail = new ListNode(value, null);
-	// 	}
-	// 	else
-	// 	{
-	// 		ListNode temp = head;
-	// 		while(temp.getNext() != null)
-	// 		{
-	// 		   temp = temp.getNext();
-	// 		}
-	// 		temp.setNext(new ListNode(value, null));
-	// 	}
-	// }
-
-	// public int size()
-	// {
-	// 	int sizeCount = 0;
-	// 	Node temp = head; // start at the head node
-	// 	while (temp != null)
-	// 	{
-	// 		sizeCount++;
-	// 		temp = temp.getNext(); // go to next node
-	// 	}
-	// 	return sizeCount;
-	// }
-
 
 	public void printList()
 	{

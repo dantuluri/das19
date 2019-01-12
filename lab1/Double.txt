@@ -1,0 +1,7 @@
+Node next;
+Node prev;
+
+nunode.net = foundnode.next
+foundnode.next = nunode
+nunode.prev = foundnode
+nunode.next.prev = nunode
