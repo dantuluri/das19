@@ -155,7 +155,7 @@ public class SinglyLinkedList <T>
 }
 
 
-public class Node <T>
+class Node <T>
 {
 	T data;
 	Node next;
