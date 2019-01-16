@@ -2,18 +2,17 @@ import java.io.*;
 import java.util.*;
 
 /**
- * DoublyLinkedList.java
- * Doubly Linked List that links any type of data
+ * SinglyLinkedList.java
+ * Singly Linked List that links any type of data
  * @author Surya Dantuluri
  * @version 1.0
- * @since 1/14/2019
+ * @since 1/12/2019
  */
 
-public class DoublyLinkedList <T>
+public class SinglyLinkedList <T>
 {
 	private Node head;
 	private Node tail;
-	private Node prev;
 
 	public SinglyLinkedList()
 	{
@@ -85,28 +84,23 @@ public class DoublyLinkedList <T>
 	*/
 	public void insert(Node curNode, Node newNode)
 	{
-		// List empty
-		if (head == null)
-		{ 
-			head = newNode
-			tail = newNode
+		//Empty list
+		if(head == null)
+		{
+			head = newNode;
+			tail = newNode;
 		}
-		// Insert after tail
-		else if (curNode.get().equals(tail.get()))
-		{ 
+		//Insert after tail
+		else if(curNode.get().equals(tail.get()))
+		{
 			tail.setNext(newNode);
-			newNode.prev
-			newNode->prev = list->tail
-			list->tail = newNode
+			tail = newNode;
 		}
-		// Insert in middle
+		//Insert in middle
 		else
 		{
-			sucNode = curNode->next
-			newNode->next = sucNode
-			newNode->prev = curNode
-			curNode->next = newNode
-			sucNode->prev = newNode
+			newNode.next = curNode.next;
+			curNode.next = newNode;
 		}
 	}
 
@@ -157,5 +151,58 @@ public class DoublyLinkedList <T>
 		}
 		System.out.println();
 		System.out.println();
+	}
+}
+
+
+class Node <T>
+{
+	T data;
+	Node next;
+	Node prev;
+
+	public Node(T t)
+	{
+		data = t;
+		next = null;
+		prev = null;
+	}
+
+	public T get()
+	{
+		return data;
+	}
+	public void set(T t)
+	{
+		data = t;
+	}
+
+	public void setNext(Node newNode)
+	{
+		next = newNode;
+	}
+
+	public void setPrev(Node newNode)
+	{
+		prev = newNode;
+	}
+
+	public static void main(String[] args)
+	{
+		Integer inumber = new Integer(123);
+		Node<Integer> inode = new Node<Integer>(inumber);
+		System.out.println(inode.get());
+		
+		String astring = "abc";
+		Node<String> snode = new Node<String>(astring);
+		System.out.println(snode.get());
+		
+		ArrayList<String> alist = new ArrayList<String>();
+		Node<ArrayList<String>> anode = new Node<ArrayList<String>>(alist);
+		anode.get().add("ABC");
+		anode.get().add("DEF");
+		anode.get().add("GHI");
+		for (int x=0; x<anode.get().size(); x++)
+			System.out.println(anode.get().get(x));
 	} 
 }
