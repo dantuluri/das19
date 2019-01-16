@@ -2,19 +2,19 @@ import java.io.*;
 import java.util.*;
 
 /**
- * SinglyLinkedList.java
- * Singly Linked List that links any type of data
+ * DoublyLinkedList.java
+ * 
  * @author Surya Dantuluri
  * @version 1.0
  * @since 1/12/2019
  */
 
-public class SinglyLinkedList <T>
+public class DoublyLinkedList <T>
 {
 	private Node head;
 	private Node tail;
 
-	public SinglyLinkedList()
+	public DoublyLinkedList()
 	{
 		head = null;
 		tail = null;
@@ -22,25 +22,22 @@ public class SinglyLinkedList <T>
 
 	public static void main(String[]args)
 	{
-		SinglyLinkedList list = new SinglyLinkedList();
+		DoublyLinkedList list = new DoublyLinkedList();
 		list.run();
 	}
 
 	public void run()
 	{
 		//Making some nodes
-		Node apple = new Node("apple");
-		Node peach = new Node("peach");
-		Node carrot = new Node("carrot");
-		Node strawberry = new Node("strawberry");
-		Node banana = new Node("banana");
+		Node node1 = new Node(9);
+		Node node2 = new Node(4);
+		Node node3 = new Node(15);
+
 
 		//Inserting the nodes into the Singly Linked List
-		insert(head, apple);
-		insert(apple, peach);
-		insert(peach, carrot);
-		insert(carrot, strawberry);
-		insert(strawberry, banana);
+		insert(head, node1);
+		insert(tail, node3);
+		insert(node1, node2);
 
 		//Print initial list
 		System.out.println();
@@ -84,23 +81,29 @@ public class SinglyLinkedList <T>
 	*/
 	public void insert(Node curNode, Node newNode)
 	{
-		//Empty list
-		if(head == null)
-		{
+		//Temporary Node
+		Node sucNode;
+
+		// List empty
+		if (head == null) 
+		{ 
 			head = newNode;
 			tail = newNode;
 		}
-		//Insert after tail
-		else if(curNode.get().equals(tail.get()))
-		{
+		// Insert after tail
+		else if (curNode == tail) 
+		{ 
 			tail.setNext(newNode);
+			newNode.setPrev(tail);
 			tail = newNode;
 		}
-		//Insert in middle
 		else
 		{
-			newNode.next = curNode.next;
-			curNode.next = newNode;
+			sucNode = curNode.next;
+			newNode.setNext(sucNode);
+			newNode.setPrev(curNode);
+			curNode.setNext(newNode);
+			sucNode.setPrev(newNode);
 		}
 	}
 
@@ -111,31 +114,31 @@ public class SinglyLinkedList <T>
 	{
 		//Temporary Node
 		Node sucNode;
+		Node predNode;
+		sucNode = curNode.next;
+		predNode = curNode.prev;
 
-		//Remove head
-		if (curNode==null&&head!=null)
+		if (sucNode!=null) 
 		{
-			sucNode = head.next;
-			head = sucNode;
-
-			//Removed last item
-			if(sucNode==null)
-			{
-				tail = null;
-			}
+			sucNode.prev = predNode;
+			sucNode.setPrev(predNode);
 		}
 
-		//Remove any node
-		else if(curNode.next!=null)
-		{ 
-			sucNode = curNode.next.next;
-			curNode.setNext(sucNode);
+		if (predNode!=null) 
+		{
+			predNode.setNext(sucNode);
+		}
 
-			//Remove tail
-			if(sucNode==null)
-			{
-				tail = curNode;
-			}
+		// Removed head
+		if (curNode == head) 
+		{ 
+			head = sucNode;
+		}
+
+		// Removed tail
+		if (curNode == tail) 
+		{ 
+			tail = predNode;
 		}
 	}
 
