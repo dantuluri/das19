@@ -35,6 +35,11 @@ class Node <T>
 		next = newNode;
 	}
 
+	public void setPrev(Node newNode)
+	{
+		prev = newNode;
+	}
+
 	public static void main(String[] args)
 	{
 		Integer inumber = new Integer(123);

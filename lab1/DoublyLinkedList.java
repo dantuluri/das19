@@ -44,35 +44,10 @@ public class DoublyLinkedList <T>
 		printList();
 		//Should print out: apple peach carrot strawberry banana 
 
-		//Removing "strawberry" by removing Node before (this is how the book implements it)
-		System.out.println("Removing strawberry");
-		delete(carrot);
-		printList();
-		//Should print out: apple peach carrot banana 
 
-		//Same aforementioned logic is used for consequetive calls to delete nodes
-		System.out.println("Removing banana");
-		delete(carrot);
-		printList();
-		//Should print out: apple peach carrot 
+		delete(head);
+		delete()
 
-		System.out.println("Removing apple");
-		/** Deleting node null since it is before head and since this function 
-		* deletes the next node the head is consequently deleted.
-		*/
-		delete(null);
-		printList();
-		//Should print out: peach carrot 
-
-		System.out.println("Removing peach");
-		delete(null);
-		printList();
-		//Should print out: carrot
-
-		System.out.println("Removing carrot");
-		delete(null);
-		printList();
-		//Should be empty list by now since all nodes are deleted
 	}
 
 	/** Inserts Node newNode after Node curNode
@@ -140,6 +115,39 @@ public class DoublyLinkedList <T>
 		{ 
 			tail = predNode;
 		}
+	}
+
+	public void prepend(Node curNode)
+	{
+		curNode.setNext(head);
+		curNode.setPrev(null);
+
+		if(head != null)
+			head.setPrev(curNode);
+
+		head = curNode;
+
+	}
+
+	public void append(Node curNode)
+	{
+
+		Node traverseNode = head;
+
+		curNode.setNext(null);
+
+		if(head==null)
+		{
+			curNode.setPrev(null);
+			head = curNode;
+			return;
+		}
+
+		while(traverseNode.next!=null)
+			traverseNode = traverseNode.next;
+
+		traverseNode.setNext(curNode);
+		curNode.setPrev(traverseNode);  
 	}
 
 	/** Prints Singly Linked List
