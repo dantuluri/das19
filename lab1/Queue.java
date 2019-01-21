@@ -2,21 +2,21 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Stack.java
+ * Queue.java
  * 
  * @author Surya Dantuluri
  * @version 1.0
  * @since 1/20/2019
  */
 
-public class Stack <T>
+public class Queue <T>
 {
 	private Node top;
 	private Node bottom;
 	private int length;
 	DoublyLinkedList list = new DoublyLinkedList();
 
-	public Stack()
+	public Queue()
 	{
 		top = null;
 		bottom = null;
@@ -25,7 +25,7 @@ public class Stack <T>
 
 	public static void main(String[]args)
 	{
-		Stack pancake = new Stack();
+		Queue pancake = new Queue();
 		pancake.run();
 	}
 
@@ -53,7 +53,7 @@ public class Stack <T>
 
 	public void push(Node curNode)
 	{
-		list.prepend(curNode);
+		list.append(curNode);
 		length++;
 	}
 

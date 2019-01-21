@@ -11,23 +11,13 @@ import java.util.*;
 
 public class DoublyLinkedList <T>
 {
-	private Node head;
-	private Node tail;
+	public Node head;
+	public Node tail;
 
 	public DoublyLinkedList()
 	{
 		head = null;
 		tail = null;
-	}
-
-	public static void main(String[]args)
-	{
-		DoublyLinkedList list = new DoublyLinkedList();
-		list.run();
-	}
-
-	public void run()
-	{
 	}
 
 	/** Inserts Node newNode after Node curNode
