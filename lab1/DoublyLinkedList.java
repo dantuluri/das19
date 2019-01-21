@@ -6,7 +6,7 @@ import java.util.*;
  * 
  * @author Surya Dantuluri
  * @version 1.0
- * @since 1/12/2019
+ * @since 1/20/2019
  */
 
 public class DoublyLinkedList <T>
@@ -28,26 +28,6 @@ public class DoublyLinkedList <T>
 
 	public void run()
 	{
-		//Making some nodes
-		Node node1 = new Node(9);
-		Node node2 = new Node(4);
-		Node node3 = new Node(15);
-
-
-		//Inserting the nodes into the Singly Linked List
-		insert(head, node1);
-		insert(tail, node3);
-		insert(node1, node2);
-
-		//Print initial list
-		System.out.println();
-		printList();
-		//Should print out: apple peach carrot strawberry banana 
-
-
-		delete(head);
-		delete()
-
 	}
 
 	/** Inserts Node newNode after Node curNode
@@ -164,7 +144,6 @@ public class DoublyLinkedList <T>
 		System.out.println();
 	}
 }
-
 
 class Node <T>
 {

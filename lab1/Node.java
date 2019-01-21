@@ -19,6 +19,7 @@ class Node <T>
 	{
 		data = t;
 		next = null;
+		prev = null;
 	}
 
 	public T get()
