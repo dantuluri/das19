@@ -21,29 +21,97 @@ public class RadixSort
 
 	public void run()
 	{
-		Node list1 = new Node(new DoublyLinkedList());
-		Node list2 = new Node(new DoublyLinkedList());
-		Node list3 = new Node(new DoublyLinkedList());
-		Node list4 = new Node(new DoublyLinkedList());
-		Node list5 = new Node(new DoublyLinkedList());
-		Node list6 = new Node(new DoublyLinkedList());
-		Node list7 = new Node(new DoublyLinkedList());
-		Node list8 = new Node(new DoublyLinkedList());
-		Node list9 = new Node(new DoublyLinkedList());
-		Node list10 = new Node(new DoublyLinkedList());
-		list.insert(list.getHead(), list1);
-		list.insert(list1, list2);
-		list.insert(list2, list3);
-		list.insert(list3, list4);
-		list.insert(list4, list5);
-		list.insert(list5, list6);
-		list.insert(list6, list7);
-		list.insert(list7, list8);
-		list.insert(list8, list9);
-		list.insert(list9, list10);
+		DoublyLinkedList[] list = new DoublyLinkedList[]
+		{
+			new DoublyLinkedList(), // 0
+			new DoublyLinkedList(), // 1
+			new DoublyLinkedList(), // 2
+			new DoublyLinkedList(), // 3
+			new DoublyLinkedList(), // 4
+			new DoublyLinkedList(), // 5
+			new DoublyLinkedList(), // 6
+			new DoublyLinkedList(), // 7
+			new DoublyLinkedList(), // 8
+			new DoublyLinkedList() // 9
+		}
 
+		ArrayList<Integer> input = new ArrayList<Integer>(); 
+		Scanner reader = new Scanner(new File("numbers.txt"));
+
+		while (reader.hasNext()){
+			input.add(reader.nextInt());
+		}
 		
 	}
+
+	public void radixSort(ArrayList input, int size)
+	{
+		int bucketIndex, arrayIndex;
+		int maxDigits = radixGetMaxLength(input, size);
+		int pow10 = 1;
+		for(int digitIndex = 0; digitIndex<maxDigits; digitIndex++)
+		{
+			for(int i = 0;i<size; i++)
+			{
+				bucketIndex = Math.abs(input.get(i)/pow10)%10;
+				list[bucketIndex].append(new Node(input.at(i)))
+			}
+
+			arrayIndex = 0;
+			for(int i=0;i<10;i++)
+				for(int j=0;j<list[i].size();j++)
+					input.set(arrayIndex++, )
+		}
+	} 
+
+	RadixSort(array, arraySize) {
+		buckets = create array of 10 buckets
+
+   		// Find the max length, in number of digits
+		maxDigits = RadixGetMaxLength(array, arraySize)
+
+   		// Start with the least significant digit
+		pow10 = 1
+		for (digitIndex = 0; digitIndex < maxDigits; digitIndex++) {
+			for (i = 0; i < arraySize; i++) {
+				bucketIndex = abs(array[i] / pow10) % 10
+				Append array[i] to buckets[bucketIndex]
+			}
+
+			arrayIndex = 0
+			for (i = 0; i < 10; i++) {
+				for (j = 0; j < buckets[i].size(); j++)
+					array[arrayIndex++] = buckets[i][j]
+			}
+			pow10 = 10 * pow10
+			Clear all buckets
+		}
+	}
+
+	// Returns the maximum length, in number of digits, out of all elements in the array
+	RadixGetMaxLength(array, arraySize) {
+		maxDigits = 0
+		for (i = 0; i < arraySize; i++) {
+			digitCount = RadixGetLength(array[i])
+			if (digitCount > maxDigits)
+				maxDigits = digitCount
+		}
+		return maxDigits
+	}
+
+	// Returns the length, in number of digits, of value
+	RadixGetLength(value) {
+		if (value == 0)
+			return 1
+
+		digits = 0
+		while (value != 0) {
+			digits = digits + 1
+			value = value / 10
+		}
+		return digits
+	}
+
 }
 
 class DoublyLinkedList <T>
@@ -184,6 +252,19 @@ class DoublyLinkedList <T>
 		System.out.println();
 		System.out.println();
 	}
+
+	public int size()
+	{
+		int sizeCount = 0;
+		Node temp = head; // start at the first node
+		while (temp != null)
+		{
+			sizeCount++;
+			temp = temp.next; // go to next node
+		}
+		return sizeCount;
+	}
+
 }
 
 
