@@ -3,13 +3,13 @@ import java.util.*;
 
 /**
  * Lab1.java
- * 
+ * Runs Stack and Queue interface with some test cases
  * @author Surya Dantuluri
  * @version 1.0
  * @since 1/20/2019
  */
 
-public class Lab1 <T>
+public class Lab1
 {
 	public static void main(String[]args)
 	{
@@ -17,6 +17,7 @@ public class Lab1 <T>
 		assignment.run();
 	}
 
+	// Runs Stack and Queue through their interface
 	public void run()
 	{
 		System.out.println("Lab1");
@@ -35,6 +36,9 @@ public class Lab1 <T>
 		System.out.println("-----------------------------");
 		Queue costco = new Queue();
 		costco.run();
+		System.out.println();
+		System.out.println();
+		System.out.println();
 	}
 }
 
@@ -116,6 +120,7 @@ class DoublyLinkedList <T>
 		}
 	}
 
+	// Inserts node at the start of the list
 	public void prepend(Node curNode)
 	{
 		curNode.setNext(head);
@@ -128,6 +133,7 @@ class DoublyLinkedList <T>
 
 	}
 
+	// Inserts node at the end of the list
 	public void append(Node curNode)
 	{
 
@@ -147,6 +153,18 @@ class DoublyLinkedList <T>
 
 		traverseNode.setNext(curNode);
 		curNode.setPrev(traverseNode);  
+	}
+
+	// Returns head of Doubly linked list
+	public Node getHead()
+	{
+		return head;
+	}
+
+	// Returns tail of Doubly linked list
+	public Node getTail()
+	{
+		return tail;
 	}
 
 	/** Prints Doubly Linked List
@@ -202,48 +220,64 @@ class Stack <T>
 		System.out.println("Popping");
 		Node popped = pop();
 		System.out.println(popped.get());
-		System.out.println("Length pf current Stack: "+getLength());
+		System.out.println("Length of current Stack: "+getLength());
 		System.out.println("-----------------------------");
 		System.out.println("Popping again");
 		popped = pop();
 		System.out.println(popped.get());
-		System.out.println("Length pf current Stack: "+getLength());
+		System.out.println("Length of current Stack: "+getLength());
 		System.out.println("-----------------------------");
 		System.out.println("Pushing Strawberry");
 		push(strawberry);
 		list.printList();
-		System.out.println("Length pf current Stack: "+getLength());
+		System.out.println("Length of current Stack: "+getLength());
 		System.out.println("-----------------------------");
+		System.out.println("Peeking");
+		Node peeked = peek();
+		System.out.println(peeked.get());
+		System.out.println("-----------------------------");
+		System.out.println("Peeking again");
+		peeked = peek();
+		System.out.println(peeked.get());
+		System.out.println("-----------------------------");
+		System.out.println("Is Stack empty? Answer: "+isEmpty());
+		System.out.println("-----------------------------");
+
 	}
 
+	// Pushes node into Stack (LIFO)
 	public void push(Node curNode)
 	{
 		list.prepend(curNode);
 		length++;
 	}
 
+	// Pops node into Stack (LIFO)
 	public Node pop()
 	{
-		Node poppedItem = list.head;
-		list.delete(list.head);
+		Node poppedItem = list.getHead();
+		list.delete(list.getHead());
 		length--;
 		return poppedItem;
 	}
 
+	// Peeks top of Stack
 	public Node peek()
 	{
 		if (isEmpty())
 			throw new NoSuchElementException("No element found to peek");
-		return list.head;
+		return list.getHead();
 	}
 
+	// Checks if Stack is empty
 	public boolean isEmpty()
 	{
-		if(list.head!=null)
+		if(list.getHead()==null)
 			return true;
 		return false;
 	}
 
+	// Gets length of Stack
 	public int getLength()
 	{
 		return length;
@@ -288,26 +322,38 @@ class Queue <T>
 		System.out.println("Popping");
 		Node popped = pop();
 		System.out.println(popped.get());
-		System.out.println("Length pf current Stack: "+getLength());
+		System.out.println("Length of current Queue: "+getLength());
 		System.out.println("-----------------------------");
 		System.out.println("Popping again");
 		popped = pop();
 		System.out.println(popped.get());
-		System.out.println("Length pf current Stack: "+getLength());
+		System.out.println("Length of current Queue: "+getLength());
 		System.out.println("-----------------------------");
 		System.out.println("Pushing Strawberry");
 		push(strawberry);
 		list.printList();
-		System.out.println("Length pf current Stack: "+getLength());
+		System.out.println("Length of current Queue: "+getLength());
+		System.out.println("-----------------------------");
+		System.out.println("Peeking");
+		Node peeked = peek();
+		System.out.println(peeked.get());
+		System.out.println("-----------------------------");
+		System.out.println("Peeking again");
+		peeked = peek();
+		System.out.println(peeked.get());
+		System.out.println("-----------------------------");
+		System.out.println("Is Queue empty? Answer: "+isEmpty());
 		System.out.println("-----------------------------");
 	}
 
+	// Pushes node into Queue (FIFO)
 	public void push(Node curNode)
 	{
 		list.append(curNode);
 		length++;
 	}
 
+	// Pops node from Queue (FIFO)
 	public Node pop()
 	{
 		Node poppedItem = list.head;
@@ -316,6 +362,7 @@ class Queue <T>
 		return poppedItem;
 	}
 
+	// Peeks at end of Queue
 	public Node peek()
 	{
 		if (isEmpty())
@@ -323,13 +370,15 @@ class Queue <T>
 		return list.head;
 	}
 
+	// Checks if Queue is empty
 	public boolean isEmpty()
 	{
-		if(list.head!=null)
+		if(list.head==null)
 			return true;
 		return false;
 	}
 
+	// Determines length of Queue
 	public int getLength()
 	{
 		return length;
