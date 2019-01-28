@@ -33,12 +33,12 @@ public class RadixSort
 
 		public void run()
 		{
-			ArrayList<Integer> input = new ArrayList<Integer>(); 
+			ArrayList<String> input = new ArrayList<String>(); 
 
-			try (Scanner reader = new Scanner(new FileReader("numbers.txt")))
+			try (Scanner reader = new Scanner(new FileReader("Words.txt")))
 			{
 				while (reader.hasNext()){
-					input.add(reader.nextInt());
+					input.add(reader.nextLine());
 				}
 			}
 			catch (IOException | InputMismatchException ex)
@@ -98,7 +98,7 @@ public class RadixSort
 
 		}
 
-		public void radixSort(ArrayList<Integer> array, int arraySize)
+		public void radixSort(ArrayList<String> array, int arraySize)
 		{
 			int bucketIndex, arrayIndex;
 			arraySize = array.size();
@@ -108,7 +108,15 @@ public class RadixSort
 			{
 				for(int i = 0;i<arraySize; i++)
 				{
-					bucketIndex = Math.abs(array.get(i)/pow10)%10;
+					if(isValid(array.get(i)))
+					{
+						bucketIndex = Math.abs(Integer.parseInt(array.get(i))/pow10)%10;
+					}
+					else
+					{
+						System.out.println("hello");
+						bucketIndex = Math.abs(array.get(i).length()-(int)(Math.log10(pow10)));
+					}
 					buckets[bucketIndex].append(new Node(array.get(i)));
 				}
 				arrayIndex = 0;
@@ -130,18 +138,19 @@ public class RadixSort
 	*	Extended from Queue class. Should use inheritance
 	* 	but this temporary fix works.
 	*/
-	public int pop(DoublyLinkedList dll)
+	public String pop(DoublyLinkedList dll)
 	{
 		
 		if(dll.head==null)
 		{
-			return -1;
+			System.out.println("this is empty");
+			return "";
 		}
 		else
 		{
 			Node poppedItem = dll.head;
 			dll.delete(dll.head);
-			return ((Integer)poppedItem.get());
+			return ((String)poppedItem.get());
 		}
 		
 	}
@@ -163,7 +172,23 @@ public class RadixSort
 		};
 	}
 
-	public int radixGetMaxLength(ArrayList<Integer> array, int arraySize)
+	public static boolean isValid(String input) 
+	{
+		try 
+		{ 
+			Integer.parseInt(input); 
+		} 
+		catch(NumberFormatException ne) 
+		{ 
+			return false; 
+		} 
+		catch(NullPointerException ne) {
+			return false;
+		}
+		return true;
+	}
+
+	public int radixGetMaxLength(ArrayList<String> array, int arraySize)
 	{
 		int digitCount, maxDigits = 0;
 		for (int i = 0; i < arraySize; i++) {
@@ -174,15 +199,16 @@ public class RadixSort
 		return maxDigits;
 	} 
 
-	public int radixGetLength(int value)
+	public int radixGetLength(String value)
 	{
-		if (value == 0)
+		if (value.length()==0)
 			return 1;
 
 		int digits = 0;
-		while (value != 0) {
+		while (value.length()!=0) {
+			System.out.println("hello");
 			digits++;
-			value/=10;
+			value.substring(0, value.length() - 1);
 		}
 		return digits;
 	}
