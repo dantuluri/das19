@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.*;
 
 /**
  * Lab3.java
@@ -30,9 +29,9 @@ public class Lab
 				String fname = tempArray[0];
 				String lname = tempArray[1];
 				String tempId = tempArray[2];
-				tempId = tempId.substring(0,tempId.indexOf("-"))+tempId.substring(tempId.indexOf("-")+1);
+				tempId = tempId.substring(0,tempId.indexOf("-"))+tempId.substring(tempId.indexOf("-")+1,tempId.indexOf("-")+2);
 				System.out.println("TEMTID: "+tempId);
-				int id = Integer.valueOf(tempId);
+				int id = Integer.parseInt(tempId);
 				// String sid = reader.next();
 				// sid
 				// System.out.println("sid: "+sid);
