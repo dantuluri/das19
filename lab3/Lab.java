@@ -25,17 +25,22 @@ public class Lab
 		{
 			reader.useDelimiter(",");
 			while (reader.hasNextLine()){
-				String main = 
-				String fname = reader.next();
-				String lname = reader.next();
-				String sid = reader.next();
-				sid.replaceAll("\\-","");
-				System.out.println("sid: "+sid);
-				int id = Integer.parseInt(sid);
-				Customer visitor = new Customer(fname,lname,id);
-				mod.insert(visitor);
-				mid.insert(visitor);
-				mul.insert(visitor);
+				String inputInitial = reader.nextLine();
+				String[] tempArray = inputInitial.split(",");
+				String fname = tempArray[0];
+				String lname = tempArray[1];
+				String tempId = tempArray[2];
+				tempId = tempId.substring(0,tempId.indexOf("-"))+tempId.substring(tempId.indexOf("-")+1);
+				System.out.println("TEMTID: "+tempId);
+				int id = Integer.valueOf(tempId);
+				// String sid = reader.next();
+				// sid
+				// System.out.println("sid: "+sid);
+				// int id = Integer.parseInt(sid);
+				// Customer visitor = new Customer(fname,lname,id);
+				// mod.insert(visitor);
+				// mid.insert(visitor);
+				// mul.insert(visitor);
 			}
 			reader.close();
 		}
