@@ -1,11 +1,4 @@
-RadixSort(array, arraySize) {
-   buckets = create array of 10 buckets
-
-   // Find the max length, in number of digits
-   maxDigits = RadixGetMaxLength(array, arraySize)
-        
-   // Start with the least significant digit
-   pow10 = 1
+pow10 = 1
    for (digitIndex = 0; digitIndex < maxDigits; digitIndex++) {
       for (i = 0; i < arraySize; i++) {
          bucketIndex = abs(array[i] / pow10) % 10
@@ -19,4 +12,3 @@ RadixSort(array, arraySize) {
       pow10 = 10 * pow10
       Clear all buckets
    }
-}
