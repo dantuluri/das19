@@ -1,5 +1,5 @@
 import java.io.*;
-
+import java.util.*;
 /**
  * Lab3.java
  * 
@@ -31,6 +31,9 @@ public class Lab
 				String tempId = tempArray[2];
 				tempId = tempId.substring(0,tempId.indexOf("-"))+tempId.substring(tempId.indexOf("-")+1,tempId.indexOf("-")+2);
 				int id = Integer.parseInt(tempId);
+				Customer visitor = new Customer(fname, lname, id);
+				mod.insert(visitor);
+				System.out.println("collisions: "+mod.collisions);
 			}
 			reader.close();
 		}
@@ -69,6 +72,8 @@ class DynamicArray
 
 	public Object get(int i)
 	{
+		while(i>size)
+			resize();
 		return container[i];		
 	}
 
@@ -97,13 +102,18 @@ class DynamicArray
 		}
 	}
 
+	public int size()
+	{
+		return size;
+	}
+
 }
 
 
 class Hashtable <T>
 {
-	DynamicArray<DoublyLinkedList<Node>> table = new DynamicArray<DoublyLinkedList<Node>>();
-	DynamicArray table = new DynamicArray();
+	DoublyLinkedList dll = new DoublyLinkedList();
+	DynamicArray table = new DynamicArray(dll);
 	int collisions = 0;
 	int s;
 	int option;
@@ -117,24 +127,25 @@ class Hashtable <T>
 	int size() { return table.size(); }
 	int getcollisions() { return collisions; }
 
-	public LinkedList get(int index)
+	public DoublyLinkedList get(int index)
 	{
-		return table.get(index);
+		return (DoublyLinkedList)table.get(index);
 	}
 
 	public void insert(Customer item) {
-		LinkedList<Node> bucketList;
+		DoublyLinkedList<Node> bucketList;
 		if (HashSearch(item.id) == null) { 
-			bucketList = table.get(getHash(item.id, option));
+			bucketList = (DoublyLinkedList)table.get(getHash(item.id, option));
 			Node input = new Node(item);
 			input.setNext(null);
-			bucketList.add(input);
+			bucketList.append(input);
+			collisions++;
 		}
 	}
 
 	public String HashSearch(int key) {
-		LinkedList<Node> bucketList;
-		bucketList = table.get(getHash(key, option));
+		DoublyLinkedList<Node> bucketList;
+		bucketList = (DoublyLinkedList)table.get(getHash(key, option));
 		Node itemNode = listSearch(bucketList, key);
 		if (itemNode != null)
 			return (String)itemNode.data;
@@ -142,14 +153,21 @@ class Hashtable <T>
 			return "";
 	}
 
-	public Node listSearch(LinkedList<Node> list, int data) 
+	public Node listSearch(DoublyLinkedList<Node> list, int data) 
 	{ 
-		Node current = list.peek();
-		while (current != null) 
+		try
+		{
+			Node current = list.peek();
+			while (current != null) 
+			{ 
+				if (current.data.equals(data)) 
+					return current;
+				current = current.next; 
+			} 
+		}
+		catch(NullPointerException e) 
 		{ 
-			if (current.data.equals(data)) 
-				return current;
-			current = current.next; 
+			
 		} 
         return null;    //data not found 
     } 
@@ -159,8 +177,10 @@ class Hashtable <T>
     	//mod
     	if(option==0)
     	{
-    		System.out.println("DAT: "+data);
-    		return (data%250);
+    		// System.out.println(data);
+    		// System.out.println(data%10);
+    		// System.out.println();
+    		return (data%10);
     	}
     	//mid
     	if(option==1)
@@ -341,6 +361,20 @@ class DoublyLinkedList <T>
 	public Node getTail()
 	{
 		return tail;
+	}
+
+	public Node peek()
+	{
+		if (isEmpty())
+			throw new NoSuchElementException("No element found to peek");
+		return this.head;
+	}
+
+	public boolean isEmpty()
+	{
+		if(this.head!=null)
+			return true;
+		return false;
 	}
 
 	/** Prints Doubly Linked List
