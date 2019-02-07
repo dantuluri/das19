@@ -33,7 +33,7 @@ public class Lab
 				int id = Integer.parseInt(tempId);
 				Customer visitor = new Customer(fname, lname, id);
 				mod.insert(visitor);
-				System.out.println("collisions: "+mod.collisions);
+				System.out.println("collisions: "+mod.getcollisions());
 			}
 			reader.close();
 		}
@@ -41,6 +41,7 @@ public class Lab
 		{
 			ex.printStackTrace();
 		}
+		System.out.println("Collisions for Modulo Hashing: "+mod.getcollisions());
 	}
 
 }
@@ -60,15 +61,47 @@ class DynamicArray
 
 	}
 
-	public void insert(Object item)
-	{
-		if(index==(size-1))
-		{
-			resize();
-		}
-		container[index]=item;
-		index++;
-	}
+	public void insert(Node item) 
+	{ 
+		int hash = getHash(item.data)
+		while (head != null) 
+		{ 
+			if (head.key.equals(key)) 
+			{ 
+				head.value = value; 
+				return; 
+			} 
+			head = head.next; 
+		} 
+
+        // Insert key in chain 
+		size++; 
+		head = bucketArray.get(bucketIndex); 
+		HashNode<K, V> newNode = new HashNode<K, V>(key, value); 
+		newNode.next = head; 
+		bucketArray.set(bucketIndex, newNode); 
+
+        // If load factor goes beyond threshold, then 
+        // double hash table size 
+		if ((1.0*size)/numBuckets >= 0.7) 
+		{ 
+			ArrayList<HashNode<K, V>> temp = bucketArray; 
+			bucketArray = new ArrayList<>(); 
+			numBuckets = 2 * numBuckets; 
+			size = 0; 
+			for (int i = 0; i < numBuckets; i++) 
+				bucketArray.add(null); 
+
+			for (HashNode<K, V> headNode : temp) 
+			{ 
+				while (headNode != null) 
+				{ 
+					add(headNode.key, headNode.value); 
+					headNode = headNode.next; 
+				} 
+			} 
+		} 
+	} 
 
 	public Object get(int i)
 	{
@@ -139,6 +172,7 @@ class Hashtable <T>
 			Node input = new Node(item);
 			input.setNext(null);
 			bucketList.append(input);
+			table.insert();
 			collisions++;
 		}
 	}
@@ -177,9 +211,9 @@ class Hashtable <T>
     	//mod
     	if(option==0)
     	{
-    		// System.out.println(data);
-    		// System.out.println(data%10);
-    		// System.out.println();
+    		System.out.println(data);
+    		System.out.println(data%10);
+    		System.out.println();
     		return (data%10);
     	}
     	//mid
@@ -238,12 +272,12 @@ class Customer
 	}
 }
 
-class DoublyLinkedList <T>
+class LinkedList <T>
 {
 	public Node head;
 	public Node tail;
 
-	public DoublyLinkedList()
+	public LinkedList()
 	{
 		head = null;
 		tail = null;
@@ -326,7 +360,6 @@ class DoublyLinkedList <T>
 			head.setPrev(curNode);
 
 		head = curNode;
-
 	}
 
 	// Inserts node at the end of the list
@@ -377,7 +410,7 @@ class DoublyLinkedList <T>
 		return false;
 	}
 
-	/** Prints Doubly Linked List
+	/** Prints Linked List
 	*/
 	public void printList()
 	{
@@ -391,7 +424,6 @@ class DoublyLinkedList <T>
 		System.out.println();
 	}
 }
-
 
 class Node <T>
 {
