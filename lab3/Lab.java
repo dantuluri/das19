@@ -58,24 +58,14 @@ class DynamicArray
 		size = 10;
 		for(int i = 0;i<size;i++)
 			container[i] = insert;
+		index = 0;
 
 	}
 
-	public void insert(Node item) 
+	public void insert(LinkedList list, Node item) 
 	{ 
-		int hash = getHash(item.data)
-		while (head != null) 
-		{ 
-			if (head.key.equals(key)) 
-			{ 
-				head.value = value; 
-				return; 
-			} 
-			head = head.next; 
-		} 
-
-        // Insert key in chain 
-		size++; 
+		size++;
+		index++; 
 		head = bucketArray.get(bucketIndex); 
 		HashNode<K, V> newNode = new HashNode<K, V>(key, value); 
 		newNode.next = head; 
@@ -101,7 +91,36 @@ class DynamicArray
 				} 
 			} 
 		} 
-	} 
+	}
+
+	public String HashSearch(int key) {
+		DoublyLinkedList<Node> bucketList;
+		bucketList = (DoublyLinkedList)table.get(getHash(key, option));
+		Node itemNode = listSearch(bucketList, key);
+		if (itemNode != null)
+			return (String)itemNode.data;
+		else
+			return "";
+	}
+
+	public Node listSearch(DoublyLinkedList<Node> list, int data) 
+	{ 
+		try
+		{
+			Node current = list.peek();
+			while (current != null) 
+			{ 
+				if (current.data.equals(data)) 
+					return current;
+				current = current.next; 
+			} 
+		}
+		catch(NullPointerException e) 
+		{ 
+			
+		} 
+        return null;    //data not found 
+    }  
 
 	public Object get(int i)
 	{
@@ -176,35 +195,6 @@ class Hashtable <T>
 			collisions++;
 		}
 	}
-
-	public String HashSearch(int key) {
-		DoublyLinkedList<Node> bucketList;
-		bucketList = (DoublyLinkedList)table.get(getHash(key, option));
-		Node itemNode = listSearch(bucketList, key);
-		if (itemNode != null)
-			return (String)itemNode.data;
-		else
-			return "";
-	}
-
-	public Node listSearch(DoublyLinkedList<Node> list, int data) 
-	{ 
-		try
-		{
-			Node current = list.peek();
-			while (current != null) 
-			{ 
-				if (current.data.equals(data)) 
-					return current;
-				current = current.next; 
-			} 
-		}
-		catch(NullPointerException e) 
-		{ 
-			
-		} 
-        return null;    //data not found 
-    } 
 
     public int getHash(int data, int option)
     {
