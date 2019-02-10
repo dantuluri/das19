@@ -16,14 +16,14 @@ public class LabThree {
     }
 
     public void run() {
-        Hashtable mod = new Hashtable(10,0);
-        Hashtable mid = new Hashtable(10,1);
-        Hashtable mul = new Hashtable(10,2);
+        Hashtable mod = new Hashtable(10, 0);
+        Hashtable mid = new Hashtable(10, 1);
+        Hashtable mul = new Hashtable(10, 2);
     }
 }
 
 class Hashtable {
-    private DynamicArray<HashEntry> table = new DynamicArray<HashEntry>();
+    private DynamicArray<DoublyLinkedList<Node>> table = new DynamicArray<DoublyLinkedList<Node>>();
     private int collisions = 0;
     private int hashOption;
 
@@ -40,38 +40,42 @@ class Hashtable {
         return collisions;
     }
 
-    public String get(String key) {
-        int hash = getHash(key);
-        return table.get(hash).getValue();
-    }
+    public void HashInsert (int item) {
+        if (HashSearch(hashTable, item->key) == null) {
+           bucketList = hashTable[Hash(item->key)]
+           node = Allocate new linked list node
+           node->next = null
+           node->data = item
+           ListAppend(bucketList, node)
+        }
+     }
 
-    public HashEntry get(int index) {
-        return table.index();
-    }
+    public HashSearch(int key) {
+        DoublyLinkedList bucketList = table.get(getHash(key));
+        itemNode = ListSearch(bucketList, key)
+        if (itemNode is not null)
+           return itemNode->data
+        else
+           return null
+     }
 
-    public void put(String value)
-    {
-        int hash = getHash(value);
-        HashEntry entry(hash,value);
-        int key = table.get(hash).getKey();
-        if(key>0)
-            collisions++;
-        table.get(hash) = entry;
+     public Node listSearch(DoublyLinkedList dll, int key)
+     {
 
-    }
+     }
 
-    public int getHash(int key, int option) {
+
+    public int getHash(int key) {
         // mod
-        if (option == 0) {
-            System.out.println(data);
-            System.out.println(data % 10);
+        if (hashOption == 0) {
+            System.out.println("OPTION 0: "+key);
+            System.out.println(key % 10);
             System.out.println();
-            return (data % 10);
+            return (key % 10);
         }
         // mid
-        if (option == 1) {
+        if (hashOption == 1) {
             int R = 3;
-            int key = data;
             int squaredKey = key * key;
 
             int lowBitsToRemove = (32 - R) / 2;
@@ -81,7 +85,7 @@ class Hashtable {
             return extractedBits % 250;
         }
         // mul
-        if (option == 2) {
+        if (hashOption == 2) {
             int stringHash = 5381;
 
             String key = Integer.toString(data);
@@ -95,14 +99,13 @@ class Hashtable {
     }
 }
 
-class DynamicArray <T>
-{
-    Object[] container;
+class DynamicArray<T> {
+    T[] container;
     private int size;
     private int index;
 
-    public DynamicArray(Object insert) {
-        container = new Object[10];
+    public DynamicArray(T insert) {
+        container = new T[10];
         size = 10;
         for (int i = 0; i < size; i++)
             container[i] = insert;
@@ -110,20 +113,20 @@ class DynamicArray <T>
 
     }
 
-    public void insert(Object item) {
+    public void insert(T item) {
         if (index > size)
             resize();
         index++;
         container[index] = item;
     }
 
-    public Object get(int i) {
+    public T get(int i) {
         return container[i];
     }
 
     public void resize() {
         size *= 2;
-        Object temp[] = new Object[size];
+        T temp[] = new T[size];
 
         for (int i = 0; i < container.length; i++)
             temp[i] = container[i];
@@ -134,7 +137,7 @@ class DynamicArray <T>
     public void resize(int s) {
         if (s > size) {
             size = s;
-            Object temp[] = new Object[size];
+            T temp[] = new T[size];
 
             for (int i = 0; i < container.length; i++)
                 temp[i] = container[i];
