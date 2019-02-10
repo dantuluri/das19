@@ -61,7 +61,14 @@ class Hashtable {
 
      public Node listSearch(DoublyLinkedList dll, int key)
      {
-
+        Node temp = head; // start at the head node
+		while (temp != null)
+		{
+			System.out.print(temp.get() + " ");
+			temp = temp.next; // go to next node
+		}
+		System.out.println();
+		System.out.println();
      }
 
 
@@ -148,24 +155,6 @@ class DynamicArray<T> {
 
     public int size() {
         return size;
-    }
-}
-
-class HashEntry {
-    private int key = 0;
-    private String value = "";
-
-    public HashEntry(int k, String v) {
-        key = k;
-        value = v;
-    }
-
-    public int getKey() {
-        return key;
-    }
-
-    public String getValue() {
-        return value;
     }
 }
 
