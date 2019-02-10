@@ -15,7 +15,7 @@ public class Lab3
 	Hashtable mul = new Hashtable(2);
 	public static void main(String[]args)
 	{
-		Lab three = new Lab();
+		Lab3 three = new Lab3();
 		three.run();
 	}
 	public void run()
@@ -24,6 +24,7 @@ public class Lab3
 		{
 			reader.useDelimiter(",");
 			while (reader.hasNextLine()){
+				//Input
 				String inputInitial = reader.nextLine();
 				String[] tempArray = inputInitial.split(",");
 				String fname = tempArray[0];
@@ -32,7 +33,6 @@ public class Lab3
 				tempId = tempId.substring(0,tempId.indexOf("-"))+tempId.substring(tempId.indexOf("-")+1,tempId.indexOf("-")+2);
 				int id = Integer.parseInt(tempId);
 				Customer visitor = new Customer(fname, lname, id);
-				table.insert(visitor);
 			}
 			reader.close();
 		}
@@ -43,6 +43,16 @@ public class Lab3
 		System.out.println("Collisions for Modulo Hashing: "+mod.getcollisions());
 	}
 
+
+	public void HashInsert(hashTable, item) {
+		if (HashSearch(hashTable, item.keyId) == null) {
+			bucketList = hashTable[Hash(item->key)]
+			node = Allocate new linked list node
+			node->next = null
+			node->data = item
+			ListAppend(bucketList, node)
+		}
+	}
 }
 
 class DynamicArray
@@ -103,9 +113,7 @@ class DynamicArray
 	{
 		return size;
 	}
-
 }
-
 
 class Hashtable <T>
 {
@@ -209,15 +217,16 @@ class Hashtable <T>
 
 class Customer
 {
-	String firstname;
-	String lastname;
-	int id;
+	public String firstname;
+	public String lastname;
+	public int keyId;
+	public int hashId;
 
 	public Customer(String fname, String lname, int lid)
 	{
-		firstname = fname;
-		lastname = lname;
-		id = lid;
+		this.firstname = fname;
+		this.lastname = lname;
+		this.keyId = lid;
 	}
 
 	public String getFirstName()
@@ -230,7 +239,7 @@ class Customer
 	}
 	public int getId()
 	{
-		return id;
+		return keyId;
 	}
 }
 
@@ -384,39 +393,6 @@ class LinkedList <T>
 		}
 		System.out.println();
 		System.out.println();
-	}
-}
-
-class Node <T>
-{
-	T data;
-	Node next;
-	Node prev;
-
-	public Node(T t)
-	{
-		data = t;
-		next = null;
-		prev = null;
-	}
-
-	public T get()
-	{
-		return data;
-	}
-	public void set(T t)
-	{
-		data = t;
-	}
-
-	public void setNext(Node newNode)
-	{
-		next = newNode;
-	}
-
-	public void setPrev(Node newNode)
-	{
-		prev = newNode;
 	}
 }
 
