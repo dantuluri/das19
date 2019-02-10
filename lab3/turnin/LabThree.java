@@ -30,11 +30,13 @@ public class LabThree {
                 // String fname = tempArray[0];
                 // String lname = tempArray[1];
                 String tempId = tempArray[2];
-                tempId = tempId.substring(0, tempId.indexOf("-"))
-                        + tempId.substring(tempId.indexOf("-") + 1, tempId.indexOf("-") + 2);
+                tempId = tempId.substring(0, tempId.indexOf("-")-3);
+                // tempId = tempId.substring(0, tempId.indexOf("-"))
+                //         + tempId.substring(tempId.indexOf("-") + 1, tempId.indexOf("-") + 2);        
                 int id = Integer.parseInt(tempId);
                 // Customer visitor = new Customer(fname, lname, id);
                 mod.HashInsert(id);
+                // System.out.println(id);
             }
             reader.close();
         } catch (IOException | InputMismatchException ex) {
@@ -61,7 +63,8 @@ class Hashtable {
 
     public void HashInsert(int key) {
         if (HashSearch(key) == -1) {
-            DoublyLinkedList bucketList = table.get(getHash(key));
+            System.out.println("EQUALS -1: key: "+key+" getHash: "+getHash(key));
+            DoublyLinkedList bucketList = (DoublyLinkedList)table.get((getHash(key)));
             Node item = new Node(key);
             item.setNext(null);
             bucketList.append(item);
@@ -69,8 +72,10 @@ class Hashtable {
     }
 
     public int HashSearch(int key) {
-        DoublyLinkedList bucketList = table.get(getHash(key));
+        System.out.println("GETHASH: "+getHash(key));
+        DoublyLinkedList bucketList = (DoublyLinkedList)table.get(getHash(key));
         Node itemNode = listSearch(bucketList, key);
+        if(bucketList.isEmpty())
         if (itemNode != null)
             return ((int) itemNode.get());
         else
@@ -78,7 +83,7 @@ class Hashtable {
     }
 
     public Node listSearch(DoublyLinkedList dll, int key) {
-        Node temp = dll.getHead(); // start at the head node
+        Node temp = dll.head; // start at the head node
         while ((int) temp.get() != key) {
             temp = temp.getNextNode(); // go to next node
         }
@@ -120,33 +125,34 @@ class Hashtable {
 }
 
 class DynamicArray <T> {
-    T[] container;
+    private Object container[];
     private int size;
     private int index;
+    private T data;
 
-    public DynamicArray(T insert) {
-        container = new T[10];
+    public DynamicArray(Object insert) {
+        container = new Object[10];
         size = 10;
         for (int i = 0; i < size; i++)
             container[i] = insert;
-        index = 0;
+            index++;
 
     }
 
     public void insert(T item) {
-        if (index > size)
+        if (index > size||index==size)
             resize();
         index++;
         container[index] = item;
     }
 
-    public T get(int i) {
+    public Object get(int i) {
         return container[i];
     }
 
     public void resize() {
         size *= 2;
-        T temp[] = new T[size];
+        Object temp[] = new Object[size];
 
         for (int i = 0; i < container.length; i++)
             temp[i] = container[i];
@@ -157,7 +163,7 @@ class DynamicArray <T> {
     public void resize(int s) {
         if (s > size) {
             size = s;
-            T temp[] = new T[size];
+            Object temp[] = new Object[size];
 
             for (int i = 0; i < container.length; i++)
                 temp[i] = container[i];
@@ -202,6 +208,13 @@ class DoublyLinkedList <T> {
     public DoublyLinkedList() {
         head = null;
         tail = null;
+    }
+
+    public boolean isEmpty()
+    {
+        if(head==null)
+            return true;
+        return false;
     }
 
     /**
