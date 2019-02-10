@@ -16,109 +16,136 @@ public class LabThree {
     }
 
     public void run() {
-        Hashtable mod = new Hashtable(0);
-        Hashtable mid = new Hashtable(1);
-        Hashtable mul = new Hashtable(2);
+        Hashtable mod = new Hashtable(10,0);
+        Hashtable mid = new Hashtable(10,1);
+        Hashtable mul = new Hashtable(10,2);
     }
 }
 
-class Hashtable
-{
+class Hashtable {
     private DynamicArray<HashEntry> table = new DynamicArray<HashEntry>();
     private int collisions = 0;
     private int hashOption;
 
-    public Hashtable(int s, int option)
-    {
+    public Hashtable(int s, int option) {
         this.table.resize(s);
         this.hashOption = option;
     }
 
-    public int size()
-    {
+    public int size() {
         return size;
     }
 
-    public int getCollisions()
-    {
+    public int getCollisions() {
         return collisions;
     }
 
-    public String get(String key)
-    {
+    public String get(String key) {
         int hash = getHash(key);
         return table.get(hash).getValue();
     }
 
-    public HashEntry get(int index)
-    {
+    public HashEntry get(int index) {
         return table.index();
     }
 
     public void put(String value)
     {
-        int hash = getHash(
+        int hash = getHash(value);
+        HashEntry entry(hash,value);
+        int key = table.get(hash).getKey();
+        if(key>0)
+            collisions++;
+        table.get(hash) = entry;
+
+    }
+
+    public int getHash(int key, int option) {
+        // mod
+        if (option == 0) {
+            System.out.println(data);
+            System.out.println(data % 10);
+            System.out.println();
+            return (data % 10);
+        }
+        // mid
+        if (option == 1) {
+            int R = 3;
+            int key = data;
+            int squaredKey = key * key;
+
+            int lowBitsToRemove = (32 - R) / 2;
+            int extractedBits = squaredKey >> lowBitsToRemove;
+            extractedBits = extractedBits & (0xFFFFFFFF >> (32 - R));
+
+            return extractedBits % 250;
+        }
+        // mul
+        if (option == 2) {
+            int stringHash = 5381;
+
+            String key = Integer.toString(data);
+            for (int i = 0; i < key.length(); i++) {
+                Character c = key.charAt(i);
+                stringHash = (stringHash * 33) + c;
+            }
+            return stringHash % 250;
+        }
+        return -1;
     }
 }
 
-class DynamicArray
+class DynamicArray <T>
 {
-	Object[] container;
-	private int size;
-	private int index;
+    Object[] container;
+    private int size;
+    private int index;
 
-	public DynamicArray(Object insert)
-	{
-		container = new Object[10];
-		size = 10;
-		for(int i = 0;i<size;i++)
-			container[i] = insert;
-		index = 0;
+    public DynamicArray(Object insert) {
+        container = new Object[10];
+        size = 10;
+        for (int i = 0; i < size; i++)
+            container[i] = insert;
+        index = 0;
 
-	}
+    }
 
-	public void insert(Object item) 
-	{ 
-		if(index>size)
-			resize();
-		index++;
-		container[index] = item;
-	}
+    public void insert(Object item) {
+        if (index > size)
+            resize();
+        index++;
+        container[index] = item;
+    }
 
-	public Object get(int i)
-	{
-		return container[i];		
-	}
+    public Object get(int i) {
+        return container[i];
+    }
 
-	public void resize()
-	{
-		size*=2;
-		Object temp[] = new Object[size];
+    public void resize() {
+        size *= 2;
+        Object temp[] = new Object[size];
 
-		for(int i = 0; i<container.length;i++)
-			temp[i]=container[i];
+        for (int i = 0; i < container.length; i++)
+            temp[i] = container[i];
 
-		container=temp;
-	}
+        container = temp;
+    }
 
-	public void resize(int s)
-	{
-		if(s>size)
-		{
-			size=s;
-			Object temp[] = new Object[size];
+    public void resize(int s) {
+        if (s > size) {
+            size = s;
+            Object temp[] = new Object[size];
 
-			for(int i = 0; i<container.length;i++)
-				temp[i]=container[i];
+            for (int i = 0; i < container.length; i++)
+                temp[i] = container[i];
 
-			container=temp;
-		}
-	}
+            container = temp;
+        }
+    }
 
-	public int size()
-	{
-		return size;
-	}
+    public int size() {
+        return size;
+    }
 }
 
 class HashEntry {
