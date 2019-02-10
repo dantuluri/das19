@@ -40,42 +40,36 @@ class Hashtable {
         return collisions;
     }
 
-    public void HashInsert (int item) {
-        if (HashSearch(hashTable, item->key) == null) {
-           bucketList = hashTable[Hash(item->key)]
-           node = Allocate new linked list node
-           node->next = null
-           node->data = item
-           ListAppend(bucketList, node)
+    public void HashInsert(int key) {
+        if (HashSearch(key) == -1) {
+            DoublyLinkedList bucketList = table.get(getHash(key));
+            Node item = new Node(key);
+            item.setNext(null);
+            bucketList.append(item);
         }
-     }
+    }
 
-    public HashSearch(int key) {
+    public int HashSearch(int key) {
         DoublyLinkedList bucketList = table.get(getHash(key));
-        itemNode = ListSearch(bucketList, key)
-        if (itemNode is not null)
-           return itemNode->data
+        Node itemNode = listSearch(bucketList, key);
+        if (itemNode != null)
+            return ((int) itemNode.get());
         else
-           return null
-     }
+            return -1;
+    }
 
-     public Node listSearch(DoublyLinkedList dll, int key)
-     {
-        Node temp = head; // start at the head node
-		while (temp != null)
-		{
-			System.out.print(temp.get() + " ");
-			temp = temp.next; // go to next node
-		}
-		System.out.println();
-		System.out.println();
-     }
-
+    public Node listSearch(DoublyLinkedList dll, int key) {
+        Node temp = dll.getHead(); // start at the head node
+        while ((int) temp.get() != key) {
+            temp = temp.getNextNode(); // go to next node
+        }
+        return temp;
+    }
 
     public int getHash(int key) {
         // mod
         if (hashOption == 0) {
-            System.out.println("OPTION 0: "+key);
+            System.out.println("OPTION 0: " + key);
             System.out.println(key % 10);
             System.out.println();
             return (key % 10);
@@ -344,5 +338,9 @@ class Node<T> {
 
     public void setPrev(Node newNode) {
         prev = newNode;
+    }
+
+    public Node getNextNode() {
+        return next;
     }
 }
