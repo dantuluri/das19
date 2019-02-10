@@ -10,30 +10,49 @@ import java.util.*;
  */
 
 public class LabThree {
+
+    Hashtable mod = new Hashtable(10, 0);
+    Hashtable mid = new Hashtable(10, 1);
+    Hashtable mul = new Hashtable(10, 2);
+
     public static void main(String[] args) {
         LabThree three = new LabThree();
         three.run();
     }
 
     public void run() {
-        Hashtable mod = new Hashtable(10, 0);
-        Hashtable mid = new Hashtable(10, 1);
-        Hashtable mul = new Hashtable(10, 2);
+        try (Scanner reader = new Scanner(new FileReader("Customer.csv"))) {
+            reader.useDelimiter(",");
+            while (reader.hasNextLine()) {
+                // Input
+                String inputInitial = reader.nextLine();
+                String[] tempArray = inputInitial.split(",");
+                // String fname = tempArray[0];
+                // String lname = tempArray[1];
+                String tempId = tempArray[2];
+                tempId = tempId.substring(0, tempId.indexOf("-"))
+                        + tempId.substring(tempId.indexOf("-") + 1, tempId.indexOf("-") + 2);
+                int id = Integer.parseInt(tempId);
+                // Customer visitor = new Customer(fname, lname, id);
+                mod.HashInsert(id);
+            }
+            reader.close();
+        } catch (IOException | InputMismatchException ex) {
+            ex.printStackTrace();
+        }
+        // System.out.println("Collisions for Modulo Hashing: " + mod.getcollisions());
     }
 }
 
 class Hashtable {
-    private DynamicArray<DoublyLinkedList<Node>> table = new DynamicArray<DoublyLinkedList<Node>>();
+    private DoublyLinkedList insertDLL;
+    private DynamicArray<DoublyLinkedList> table = new DynamicArray<DoublyLinkedList>(insertDLL);
     private int collisions = 0;
     private int hashOption;
 
     public Hashtable(int s, int option) {
         this.table.resize(s);
         this.hashOption = option;
-    }
-
-    public int size() {
-        return size;
     }
 
     public int getCollisions() {
@@ -74,33 +93,33 @@ class Hashtable {
             System.out.println();
             return (key % 10);
         }
-        // mid
-        if (hashOption == 1) {
-            int R = 3;
-            int squaredKey = key * key;
+        // // mid
+        // if (hashOption == 1) {
+        //     int R = 3;
+        //     int squaredKey = key * key;
 
-            int lowBitsToRemove = (32 - R) / 2;
-            int extractedBits = squaredKey >> lowBitsToRemove;
-            extractedBits = extractedBits & (0xFFFFFFFF >> (32 - R));
+        //     int lowBitsToRemove = (32 - R) / 2;
+        //     int extractedBits = squaredKey >> lowBitsToRemove;
+        //     extractedBits = extractedBits & (0xFFFFFFFF >> (32 - R));
 
-            return extractedBits % 250;
-        }
-        // mul
-        if (hashOption == 2) {
-            int stringHash = 5381;
+        //     return extractedBits % 250;
+        // }
+        // // mul
+        // if (hashOption == 2) {
+        //     int stringHash = 5381;
 
-            String key = Integer.toString(data);
-            for (int i = 0; i < key.length(); i++) {
-                Character c = key.charAt(i);
-                stringHash = (stringHash * 33) + c;
-            }
-            return stringHash % 250;
-        }
+        //     String key = Integer.toString(data);
+        //     for (int i = 0; i < key.length(); i++) {
+        //         Character c = key.charAt(i);
+        //         stringHash = (stringHash * 33) + c;
+        //     }
+        //     return stringHash % 250;
+        // }
         return -1;
     }
 }
 
-class DynamicArray<T> {
+class DynamicArray <T> {
     T[] container;
     private int size;
     private int index;
@@ -176,7 +195,7 @@ class Customer {
     }
 }
 
-class DoublyLinkedList<T> {
+class DoublyLinkedList <T> {
     public Node head;
     public Node tail;
 
@@ -313,7 +332,7 @@ class DoublyLinkedList<T> {
 
 }
 
-class Node<T> {
+class Node <T> {
     T data;
     Node next;
     Node prev;
