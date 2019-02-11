@@ -9,14 +9,14 @@ import java.util.*;
  * @since 2/7/2019
  */
 
-public class LabThree {
+public class Lab3 {
 
     Hashtable mod = new Hashtable(10, 0);
     Hashtable mid = new Hashtable(10, 1);
     Hashtable mul = new Hashtable(10, 2);
 
     public static void main(String[] args) {
-        LabThree three = new LabThree();
+        Lab3 three = new Lab3();
         three.run();
     }
 
@@ -43,7 +43,7 @@ public class LabThree {
         } catch (IOException | InputMismatchException ex) {
             ex.printStackTrace();
         }
-        
+
         System.out.println("--------------------------------------------------");
         System.out.println("Collisions for Modulo Hashing:                " + mod.getCollisions());
         System.out.println("--------------------------------------------------");
