@@ -35,26 +35,35 @@ public class LabThree {
                 //         + tempId.substring(tempId.indexOf("-") + 1, tempId.indexOf("-") + 2);        
                 int id = Integer.parseInt(tempId);
                 // Customer visitor = new Customer(fname, lname, id);
-                // mod.HashInsert(id);
+                mod.HashInsert(id);
                 // System.out.println(id);
             }
             reader.close();
         } catch (IOException | InputMismatchException ex) {
             ex.printStackTrace();
         }
-        mod.tableTest();
+        // mod.tableTest();
         // System.out.println("Collisions for Modulo Hashing: " + mod.getcollisions());
     }
 }
 
 class Hashtable {
-    DynamicArray <DoublyLinkedList> table = new DynamicArray<DoublyLinkedList>(new DoublyLinkedList());
+    DynamicArray <DoublyLinkedList> table = new DynamicArray<DoublyLinkedList>();
     private int collisions = 0;
     private int hashOption;
 
     public Hashtable(int s, int option) {
-        // this.table.resize(s);
+        tableFill();
         this.hashOption = option;
+    }
+
+    public void tableFill()
+    {
+        for(int i = 0;i<10;i++)
+        {
+            table.insert(new DoublyLinkedList());
+        }
+        
     }
 
     public int getCollisions() {
@@ -67,79 +76,91 @@ class Hashtable {
         hello.append(new Node(123));
         DoublyLinkedList bye = table.get(1);
         bye.append(new Node(1113));
-        DoublyLinkedList ss = table.get(10);
+        DoublyLinkedList ss = table.get(9);
         ss.append(new Node(432));
-        table.printArray();
+        printTable();
     }
 
-    // public void HashInsert(int key) {
-    //     if (HashSearch(key) == -1) {
-    //         System.out.println("EQUALS -1: key: "+key+" getHash: "+getHash(key));
-    //         DoublyLinkedList bucketList = table.get((getHash(key)));
-    //         Node item = new Node(key);
-    //         item.setNext(null);
-    //         bucketList.append(item);
-    //     }
-    // }
-
-    // public int HashSearch(int key) {
-    //     DoublyLinkedList bucketList = table.get(getHash(key));
-    //     bucketList.append(new Node(123));
-    //     Node itemNode = listSearch(bucketList, key);
-
-    //     if (itemNode != null)
-    //         return ((int) itemNode.get());
-    //     else
-    //         return -1;
-    // }
-
-    // public Node listSearch(DoublyLinkedList dll, int key) {
-    //     Node temp = dll.head; // start at the head node
-    //     while ((int) temp.get() != key) {
-    //         temp = temp.next; // go to next node
-    //     }
-    //     return temp;
-    // }
-
-    // public int getHash(int key) {
-    //     // mod
-    //     if (hashOption == 0) {
-    //         System.out.println("OPTION 0: " + key);
-    //         System.out.println(key % 10);
-    //         System.out.println();
-    //         return (key % 10);
-    //     }
-    //     // // mid
-    //     // if (hashOption == 1) {
-    //     //     int R = 3;
-    //     //     int squaredKey = key * key;
-
-    //     //     int lowBitsToRemove = (32 - R) / 2;
-    //     //     int extractedBits = squaredKey >> lowBitsToRemove;
-    //     //     extractedBits = extractedBits & (0xFFFFFFFF >> (32 - R));
-
-    //     //     return extractedBits % 250;
-    //     // }
-    //     // // mul
-    //     // if (hashOption == 2) {
-    //     //     int stringHash = 5381;
-
-    //     //     String key = Integer.toString(data);
-    //     //     for (int i = 0; i < key.length(); i++) {
-    //     //         Character c = key.charAt(i);
-    //     //         stringHash = (stringHash * 33) + c;
-    //     //     }
-    //     //     return stringHash % 250;
-    //     // }
-    //     return -1;
-    // }
-    public void printTable()
-    {
-        for(int i = 0;i<table.getSize();i++)
-        {
-            System.out.println(i+": "+(table.get(i)).printList());
+    public void HashInsert(int key) {
+        if (HashSearch(key) == -1) {
+            System.out.println("EQUALS -1: key: "+key+" getHash: "+getHash(key));
+            DoublyLinkedList bucketList = table.get((getHash(key)));
+            Node item = new Node(key);
+            item.setNext(null);
+            bucketList.append(item);
         }
     }
+
+    public int HashSearch(int key) {
+        DoublyLinkedList bucketList = table.get(getHash(key));
+        // bucketList.append(new Node(123));
+        printTable();
+        Node itemNode = listSearch(bucketList, key);
+
+        if (itemNode != null)
+            return ((int) itemNode.get());
+        else
+            return -1;
+    }
+
+    public Node listSearch(DoublyLinkedList dll, int key) {
+        Node temp = dll.getHead(); // start at the head node
+        if(temp!=null)
+        {
+
+            int iter = (int)temp.get();
+            System.out.println("STAR: "+iter+" emd");
+            while (iter != key)
+            {
+            temp = temp.next; // go to next node
+            iter = (int)temp.get();
+        }
+    }
+
+    return temp;
+}
+
+public int getHash(int key) {
+        // mod
+    if (hashOption == 0) {
+        System.out.println("OPTION 0: " + key);
+        System.out.println(key % 10);
+        System.out.println();
+        return (key % 10);
+    }
+        // // mid
+        // if (hashOption == 1) {
+        //     int R = 3;
+        //     int squaredKey = key * key;
+
+        //     int lowBitsToRemove = (32 - R) / 2;
+        //     int extractedBits = squaredKey >> lowBitsToRemove;
+        //     extractedBits = extractedBits & (0xFFFFFFFF >> (32 - R));
+
+        //     return extractedBits % 250;
+        // }
+        // // mul
+        // if (hashOption == 2) {
+        //     int stringHash = 5381;
+
+        //     String key = Integer.toString(data);
+        //     for (int i = 0; i < key.length(); i++) {
+        //         Character c = key.charAt(i);
+        //         stringHash = (stringHash * 33) + c;
+        //     }
+        //     return stringHash % 250;
+        // }
+    return -1;
+}
+public void printTable()
+{
+    for(int i = 0;i<table.getSize();i++)
+    {
+        System.out.print(i+": ");
+        table.get(i).printList();
+        System.out.println();
+    }
+}
 }
 
 class DynamicArray<T> 
@@ -148,17 +169,8 @@ class DynamicArray<T>
     private int size = 10;
     private Object container[];
 
-    public DynamicArray(T item) {
+    public DynamicArray() {
         container = new Object[10];
-        if(item!=null)
-        {
-            for(int i = 0;i<10;i++)
-            {
-                System.out.println("new item");
-                insert(item);
-            }
-        }
-
     }
 
     public void insert(T item)
