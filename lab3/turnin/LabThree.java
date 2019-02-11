@@ -12,8 +12,8 @@ import java.util.*;
 public class LabThree {
 
     Hashtable mod = new Hashtable(10, 0);
-    // Hashtable mid = new Hashtable(10, 1);
-    // Hashtable mul = new Hashtable(10, 2);
+    Hashtable mid = new Hashtable(10, 1);
+    Hashtable mul = new Hashtable(10, 2);
 
     public static void main(String[] args) {
         LabThree three = new LabThree();
@@ -30,12 +30,14 @@ public class LabThree {
                 // String fname = tempArray[0];
                 // String lname = tempArray[1];
                 String tempId = tempArray[2];
-                tempId = tempId.substring(0, tempId.indexOf("-")-3);
+                tempId = tempId.substring(0, tempId.indexOf("-") - 3);
                 // tempId = tempId.substring(0, tempId.indexOf("-"))
-                //         + tempId.substring(tempId.indexOf("-") + 1, tempId.indexOf("-") + 2);        
+                // + tempId.substring(tempId.indexOf("-") + 1, tempId.indexOf("-") + 2);
                 int id = Integer.parseInt(tempId);
                 // Customer visitor = new Customer(fname, lname, id);
-                mod.HashInsert(id);
+                // mod.HashInsert(id);
+                // mid.HashInsert(id);
+                mul.HashInsert(id);
                 // System.out.println(id);
             }
             reader.close();
@@ -43,12 +45,14 @@ public class LabThree {
             ex.printStackTrace();
         }
         // mod.tableTest();
-        // System.out.println("Collisions for Modulo Hashing: " + mod.getcollisions());
+        // System.out.println("Collisions for Modulo Hashing: " + mod.getCollisions());
+        // System.out.println("Collisions for mul Hashing: " + mid.getCollisions());
+        System.out.println("Collisions for mul Hashing: " + mul.getCollisions());
     }
 }
 
 class Hashtable {
-    DynamicArray <DoublyLinkedList> table = new DynamicArray<DoublyLinkedList>();
+    DynamicArray<DoublyLinkedList> table = new DynamicArray<DoublyLinkedList>();
     private int collisions = 0;
     private int hashOption;
 
@@ -57,21 +61,22 @@ class Hashtable {
         this.hashOption = option;
     }
 
-    public void tableFill()
-    {
-        for(int i = 0;i<10;i++)
-        {
+    public void tableFill() {
+        for (int i = 0; i < 10; i++) {
             table.insert(new DoublyLinkedList());
         }
-        
+
     }
 
     public int getCollisions() {
+        for(int i = 0;i<table.getSize();i++)
+        {
+            collisions+=(table.get(i).size()-1);
+        }
         return collisions;
     }
 
-    public void tableTest()
-    {
+    public void tableTest() {
         DoublyLinkedList hello = table.get(0);
         hello.append(new Node(123));
         DoublyLinkedList bye = table.get(1);
@@ -83,7 +88,7 @@ class Hashtable {
 
     public void HashInsert(int key) {
         if (HashSearch(key) == -1) {
-            System.out.println("EQUALS -1: key: "+key+" getHash: "+getHash(key));
+            System.out.println("EQUALS -1: key: " + key + " getHash: " + getHash(key));
             DoublyLinkedList bucketList = table.get((getHash(key)));
             Node item = new Node(key);
             item.setNext(null);
@@ -92,6 +97,8 @@ class Hashtable {
     }
 
     public int HashSearch(int key) {
+        System.out.println("KEY: "+key);
+        System.out.println("hash: "+getHash(key));
         DoublyLinkedList bucketList = table.get(getHash(key));
         // bucketList.append(new Node(123));
         printTable();
@@ -105,66 +112,73 @@ class Hashtable {
 
     public Node listSearch(DoublyLinkedList dll, int key) {
         Node temp = dll.getHead(); // start at the head node
-        if(temp!=null)
-        {
+        if (temp != null) {
 
-            int iter = (int)temp.get();
-            System.out.println("STAR: "+iter+" emd");
-            while (iter != key)
-            {
-            temp = temp.next; // go to next node
-            iter = (int)temp.get();
+            int iter = (int) temp.get();
+            System.out.println("STAR: " + iter + " emd");
+            while (iter != key) {
+                System.out.println("iteration");
+                if (temp.next != null) {
+                    temp = temp.next; // go to next node
+                    iter = (int) temp.get();
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
         }
+
+        return temp;
     }
 
-    return temp;
-}
-
-public int getHash(int key) {
-        // mod
-    if (hashOption == 0) {
-        System.out.println("OPTION 0: " + key);
-        System.out.println(key % 10);
-        System.out.println();
-        return (key % 10);
-    }
+    public int getHash(int key) {
+        // // mod
+        // if (hashOption == 0) {
+        //     System.out.println("OPTION 0: " + key);
+        //     System.out.println(key % 10);
+        //     System.out.println();
+        //     return (key % 10);
+        // }
         // // mid
         // if (hashOption == 1) {
-        //     int R = 3;
-        //     int squaredKey = key * key;
+        // int R = 3;
+        // int squaredKey = (int)Math.pow(key,2);
+        // System.out.println("sqwu: "+squaredKey);
 
-        //     int lowBitsToRemove = (32 - R) / 2;
-        //     int extractedBits = squaredKey >> lowBitsToRemove;
-        //     extractedBits = extractedBits & (0xFFFFFFFF >> (32 - R));
+        // int lowBitsToRemove = (32 - R) / 2;
+        // int extractedBits = squaredKey >> lowBitsToRemove;
+        // extractedBits = extractedBits & (0xFFFFFFFF >> (32 - R));
 
-        //     return extractedBits % 250;
+        // return extractedBits % 10;
         // }
-        // // mul
-        // if (hashOption == 2) {
-        //     int stringHash = 5381;
+        // mul
+        if (hashOption == 2) {
+        int stringHash = 0;
 
-        //     String key = Integer.toString(data);
-        //     for (int i = 0; i < key.length(); i++) {
-        //         Character c = key.charAt(i);
-        //         stringHash = (stringHash * 33) + c;
-        //     }
-        //     return stringHash % 250;
-        // }
-    return -1;
-}
-public void printTable()
-{
-    for(int i = 0;i<table.getSize();i++)
-    {
-        System.out.print(i+": ");
-        table.get(i).printList();
-        System.out.println();
+        String data = Integer.toString(key);
+        for (int i = 0; i < data.length(); i++) {
+        Character c = data.charAt(i);
+        stringHash = (stringHash * 3) + c;
+        }
+        return stringHash % 10;
+        }
+
+
+        return -1;
+    }
+
+    public void printTable() {
+        for (int i = 0; i < table.getSize(); i++) {
+            System.out.print(i + ": ");
+            table.get(i).printList();
+            System.out.println();
+        }
     }
 }
-}
 
-class DynamicArray<T> 
-{
+class DynamicArray<T> {
     private int index = 0;
     private int size = 10;
     private Object container[];
@@ -173,67 +187,58 @@ class DynamicArray<T>
         container = new Object[10];
     }
 
-    public void insert(T item)
-    {
+    public void insert(T item) {
         if (index == size) {
             resize();
         }
         container[index++] = item;
     }
 
-    private void resize()
-    {
-        size = container.length*2;
-        container = Arrays.copyOf(container,size);
+    private void resize() {
+        size = container.length * 2;
+        container = Arrays.copyOf(container, size);
     }
 
-    public T get (int i)
-    {
+    public T get(int i) {
         return (T) container[i];
     }
 
-    public int getSize()
-    {
+    public int getSize() {
         return size;
     }
 }
 
-class DoublyLinkedList <T>
-{
+class DoublyLinkedList<T> {
     public Node head;
     public Node tail;
 
-    public DoublyLinkedList()
-    {
+    public DoublyLinkedList() {
         System.out.println("DOublyLinkedLis trhas been summoned");
         head = null;
         tail = null;
     }
 
-    /** Inserts Node newNode after Node curNode
-    *  @param curNode Node previous to inserted node
-    *  @param newNode Node that is inserted after curNode
-    */
-    public void insert(Node curNode, Node newNode)
-    {
-        //Temporary Node
+    /**
+     * Inserts Node newNode after Node curNode
+     * 
+     * @param curNode Node previous to inserted node
+     * @param newNode Node that is inserted after curNode
+     */
+    public void insert(Node curNode, Node newNode) {
+        // Temporary Node
         Node sucNode;
 
         // List empty
-        if (head == null) 
-        { 
+        if (head == null) {
             head = newNode;
             tail = newNode;
         }
         // Insert after tail
-        else if (curNode == tail) 
-        { 
+        else if (curNode == tail) {
             tail.setNext(newNode);
             newNode.setPrev(tail);
             tail = newNode;
-        }
-        else
-        {
+        } else {
             sucNode = curNode.next;
             newNode.setNext(sucNode);
             newNode.setPrev(curNode);
@@ -242,48 +247,44 @@ class DoublyLinkedList <T>
         }
     }
 
-    /** Deletes Node after Node curNode.
-    *  @param curNode Node previous to deleted node
-    */
-    public void delete(Node curNode)
-    {
-        //Temporary Node
+    /**
+     * Deletes Node after Node curNode.
+     * 
+     * @param curNode Node previous to deleted node
+     */
+    public void delete(Node curNode) {
+        // Temporary Node
         Node sucNode;
         Node predNode;
         sucNode = curNode.next;
         predNode = curNode.prev;
 
-        if (sucNode!=null) 
-        {
+        if (sucNode != null) {
             sucNode.prev = predNode;
             sucNode.setPrev(predNode);
         }
 
-        if (predNode!=null) 
-        {
+        if (predNode != null) {
             predNode.setNext(sucNode);
         }
 
         // Removed head
-        if (curNode == head) 
-        { 
+        if (curNode == head) {
             head = sucNode;
         }
 
         // Removed tail
-        if (curNode == tail) 
-        { 
+        if (curNode == tail) {
             tail = predNode;
         }
     }
 
     // Inserts node at the start of the list
-    public void prepend(Node curNode)
-    {
+    public void prepend(Node curNode) {
         curNode.setNext(head);
         curNode.setPrev(null);
 
-        if(head != null)
+        if (head != null)
             head.setPrev(curNode);
 
         head = curNode;
@@ -291,57 +292,50 @@ class DoublyLinkedList <T>
     }
 
     // Inserts node at the end of the list
-    public void append(Node curNode)
-    {
+    public void append(Node curNode) {
 
         Node traverseNode = head;
 
         curNode.setNext(null);
 
-        if(head==null)
-        {
+        if (head == null) {
             curNode.setPrev(null);
             head = curNode;
             return;
         }
 
-        while(traverseNode.next!=null)
+        while (traverseNode.next != null)
             traverseNode = traverseNode.next;
 
         traverseNode.setNext(curNode);
-        curNode.setPrev(traverseNode);  
+        curNode.setPrev(traverseNode);
     }
 
     // Returns head of Doubly linked list
-    public Node getHead()
-    {
+    public Node getHead() {
         return head;
     }
 
     // Returns tail of Doubly linked list
-    public Node getTail()
-    {
+    public Node getTail() {
         return tail;
     }
 
-    /** Prints Doubly Linked List
-    */
-    public void printList()
-    {
+    /**
+     * Prints Doubly Linked List
+     */
+    public void printList() {
         Node temp = head; // start at the head node
-        while (temp != null)
-        {
+        while (temp != null) {
             System.out.print(temp.get() + " ");
             temp = temp.next; // go to next node
         }
     }
 
-    public int size()
-    {
+    public int size() {
         int sizeCount = 0;
         Node temp = head; // start at the first node
-        while (temp != null)
-        {
+        while (temp != null) {
             sizeCount++;
             temp = temp.next; // go to next node
         }
@@ -349,35 +343,30 @@ class DoublyLinkedList <T>
     }
 }
 
-class Node <T>
-{
+class Node<T> {
     T data;
     Node next;
     Node prev;
 
-    public Node(T t)
-    {
+    public Node(T t) {
         data = t;
         next = null;
         prev = null;
     }
 
-    public T get()
-    {
+    public T get() {
         return data;
     }
-    public void set(T t)
-    {
+
+    public void set(T t) {
         data = t;
     }
 
-    public void setNext(Node newNode)
-    {
+    public void setNext(Node newNode) {
         next = newNode;
     }
 
-    public void setPrev(Node newNode)
-    {
+    public void setPrev(Node newNode) {
         prev = newNode;
     }
 }
