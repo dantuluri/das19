@@ -30,13 +30,13 @@ public class LabThree {
                 // String fname = tempArray[0];
                 // String lname = tempArray[1];
                 String tempId = tempArray[2];
-                tempId = tempId.substring(0, tempId.indexOf("-") - 3);
+                tempId = tempId.substring(0, tempId.indexOf("-") - 2);
                 // tempId = tempId.substring(0, tempId.indexOf("-"))
                 // + tempId.substring(tempId.indexOf("-") + 1, tempId.indexOf("-") + 2);
                 int id = Integer.parseInt(tempId);
                 // Customer visitor = new Customer(fname, lname, id);
-                // mod.HashInsert(id);
-                // mid.HashInsert(id);
+                mod.HashInsert(id);
+                mid.HashInsert(id);
                 mul.HashInsert(id);
                 // System.out.println(id);
             }
@@ -45,9 +45,9 @@ public class LabThree {
             ex.printStackTrace();
         }
         // mod.tableTest();
-        // System.out.println("Collisions for Modulo Hashing: " + mod.getCollisions());
-        // System.out.println("Collisions for mul Hashing: " + mid.getCollisions());
-        System.out.println("Collisions for mul Hashing: " + mul.getCollisions());
+        System.out.println("Collisions for Modulo Hashing: " + mod.getCollisions());
+        System.out.println("Collisions for Mid Hashing: " + mid.getCollisions());
+        System.out.println("Collisions for Mul Hashing: " + mul.getCollisions());
     }
 }
 
@@ -66,6 +66,16 @@ class Hashtable {
             table.insert(new DoublyLinkedList());
         }
 
+    }
+
+    public void tableResize() {
+        System.out.println("RZIS");
+        int len = table.container.length;
+        table.size = len*2;
+        table.container = Arrays.copyOf(table.container, table.size);
+        for (int i = len; i <(len*2); i++) {
+            table.insert(new DoublyLinkedList());
+        }
     }
 
     public int getCollisions() {
@@ -99,10 +109,11 @@ class Hashtable {
     public int HashSearch(int key) {
         System.out.println("KEY: "+key);
         System.out.println("hash: "+getHash(key));
-        if(getHash(key)>table.getSize())
+        while(getHash(key)>table.getSize()||getHash(key)==table.getSize())
         {
-
+            tableResize();
         }
+        System.out.println("SIze: "+table.getSize()+" getHash: "+getHash(key));
         DoublyLinkedList bucketList = table.get(getHash(key));
         // bucketList.append(new Node(123));
         printTable();
@@ -138,25 +149,25 @@ class Hashtable {
     }
 
     public int getHash(int key) {
-        // // mod
-        // if (hashOption == 0) {
-        //     System.out.println("OPTION 0: " + key);
-        //     System.out.println(key % 10);
-        //     System.out.println();
-        //     return (key % 10);
-        // }
-        // // mid
-        // if (hashOption == 1) {
-        // int R = 3;
-        // int squaredKey = (int)Math.pow(key,2);
-        // System.out.println("sqwu: "+squaredKey);
+        // mod
+        if (hashOption == 0) {
+            System.out.println("OPTION 0: " + key);
+            System.out.println(key % 10);
+            System.out.println();
+            return (key % 10);
+        }
+        // mid
+        if (hashOption == 1) {
+        int R = 3;
+        int squaredKey = (int)Math.pow(key,2);
+        System.out.println("sqwu: "+squaredKey);
 
-        // int lowBitsToRemove = (32 - R) / 2;
-        // int extractedBits = squaredKey >> lowBitsToRemove;
-        // extractedBits = extractedBits & (0xFFFFFFFF >> (32 - R));
+        int lowBitsToRemove = (32 - R) / 2;
+        int extractedBits = squaredKey >> lowBitsToRemove;
+        extractedBits = extractedBits & (0xFFFFFFFF >> (32 - R));
 
-        // return extractedBits % 10;
-        // }
+        return extractedBits % 250;
+        }
         // mul
         if (hashOption == 2) {
         int stringHash = 7;
@@ -166,7 +177,7 @@ class Hashtable {
         Character c = data.charAt(i);
         stringHash = (stringHash * 3) + c;
         }
-        return stringHash % 13;
+        return stringHash % 250;
         }
 
 
@@ -184,8 +195,8 @@ class Hashtable {
 
 class DynamicArray<T> {
     private int index = 0;
-    private int size = 10;
-    private Object container[];
+    public int size = 10;
+    public Object container[];
 
     public DynamicArray() {
         container = new Object[10];
