@@ -27,27 +27,31 @@ public class LabThree {
                 // Input
                 String inputInitial = reader.nextLine();
                 String[] tempArray = inputInitial.split(",");
-                // String fname = tempArray[0];
-                // String lname = tempArray[1];
+                String fname = tempArray[0];
+                String lname = tempArray[1];
                 String tempId = tempArray[2];
                 tempId = tempId.substring(0, tempId.indexOf("-") - 2);
-                // tempId = tempId.substring(0, tempId.indexOf("-"))
-                // + tempId.substring(tempId.indexOf("-") + 1, tempId.indexOf("-") + 2);
                 int id = Integer.parseInt(tempId);
-                // Customer visitor = new Customer(fname, lname, id);
-                mod.HashInsert(id);
-                mid.HashInsert(id);
-                mul.HashInsert(id);
-                // System.out.println(id);
+
+                Customer visitor = new Customer(fname, lname, id);
+
+                mod.HashInsert(visitor);
+                mid.HashInsert(visitor);
+                mul.HashInsert(visitor);
             }
             reader.close();
         } catch (IOException | InputMismatchException ex) {
             ex.printStackTrace();
         }
-        // mod.tableTest();
-        System.out.println("Collisions for Modulo Hashing: " + mod.getCollisions());
-        System.out.println("Collisions for Mid Hashing: " + mid.getCollisions());
-        System.out.println("Collisions for Mul Hashing: " + mul.getCollisions());
+        
+        System.out.println("--------------------------------------------------");
+        System.out.println("Collisions for Modulo Hashing:                " + mod.getCollisions());
+        System.out.println("--------------------------------------------------");
+        System.out.println("Collisions for Mid-square Hashing:            " + mid.getCollisions());
+        System.out.println("--------------------------------------------------");
+        System.out.println("Collisions for Multiplicative string Hashing: " + mul.getCollisions());
+        System.out.println("--------------------------------------------------");
+
     }
 }
 
@@ -69,36 +73,24 @@ class Hashtable {
     }
 
     public void tableResize() {
-        System.out.println("RZIS");
         int len = table.container.length;
-        table.size = len*2;
+        table.size = len * 2;
         table.container = Arrays.copyOf(table.container, table.size);
-        for (int i = len; i <(len*2); i++) {
+        for (int i = len; i < (len * 2); i++) {
             table.insert(new DoublyLinkedList());
         }
     }
 
     public int getCollisions() {
-        for(int i = 0;i<table.getSize();i++)
-        {
-            collisions+=(table.get(i).size()-1);
+        for (int i = 0; i < table.getSize(); i++) {
+            collisions += (table.get(i).size() - 1);
         }
         return collisions;
     }
 
-    // public void tableTest() {
-    //     DoublyLinkedList hello = table.get(0);
-    //     hello.append(new Node(123));
-    //     DoublyLinkedList bye = table.get(1);
-    //     bye.append(new Node(1113));
-    //     DoublyLinkedList ss = table.get(9);
-    //     ss.append(new Node(432));
-    //     printTable();
-    // }
-
-    public void HashInsert(int key) {
+    public void HashInsert(Customer visitor) {
+        int key = visitor.getId();
         if (HashSearch(key) == -1) {
-            System.out.println("EQUALS -1: key: " + key + " getHash: " + getHash(key));
             DoublyLinkedList bucketList = table.get((getHash(key)));
             Node item = new Node(key);
             item.setNext(null);
@@ -107,16 +99,10 @@ class Hashtable {
     }
 
     public int HashSearch(int key) {
-        System.out.println("KEY: "+key);
-        System.out.println("hash: "+getHash(key));
-        while(getHash(key)>table.getSize()||getHash(key)==table.getSize())
-        {
+        while (getHash(key) > table.getSize() || getHash(key) == table.getSize()) {
             tableResize();
         }
-        System.out.println("SIze: "+table.getSize()+" getHash: "+getHash(key));
         DoublyLinkedList bucketList = table.get(getHash(key));
-        // bucketList.append(new Node(123));
-        printTable();
         Node itemNode = listSearch(bucketList, key);
 
         if (itemNode != null)
@@ -130,15 +116,11 @@ class Hashtable {
         if (temp != null) {
 
             int iter = (int) temp.get();
-            System.out.println("STAR: " + iter + " emd");
             while (iter != key) {
-                System.out.println("iteration");
                 if (temp.next != null) {
                     temp = temp.next; // go to next node
                     iter = (int) temp.get();
-                }
-                else
-                {
+                } else {
                     return null;
                 }
 
@@ -151,45 +133,31 @@ class Hashtable {
     public int getHash(int key) {
         // mod
         if (hashOption == 0) {
-            System.out.println("OPTION 0: " + key);
-            System.out.println(key % 10);
-            System.out.println();
             return (key % 10);
         }
         // mid
         if (hashOption == 1) {
-        int R = 3;
-        int squaredKey = (int)Math.pow(key,2);
-        System.out.println("sqwu: "+squaredKey);
+            int R = 3;
+            int squaredKey = (int) Math.pow(key, 2);
+            int lowBitsToRemove = (32 - R) / 2;
+            int extractedBits = squaredKey >> lowBitsToRemove;
+            extractedBits = extractedBits & (0xFFFFFFFF >> (32 - R));
 
-        int lowBitsToRemove = (32 - R) / 2;
-        int extractedBits = squaredKey >> lowBitsToRemove;
-        extractedBits = extractedBits & (0xFFFFFFFF >> (32 - R));
-
-        return extractedBits % 250;
+            return extractedBits % 250;
         }
         // mul
         if (hashOption == 2) {
-        int stringHash = 7;
+            int stringHash = 7;
 
-        String data = Integer.toString(key);
-        for (int i = 0; i < data.length(); i++) {
-        Character c = data.charAt(i);
-        stringHash = (stringHash * 3) + c;
+            String data = Integer.toString(key);
+            for (int i = 0; i < data.length(); i++) {
+                Character c = data.charAt(i);
+                stringHash = (stringHash * 3) + c;
+            }
+            return stringHash % 250;
         }
-        return stringHash % 250;
-        }
-
 
         return -1;
-    }
-
-    public void printTable() {
-        for (int i = 0; i < table.getSize(); i++) {
-            System.out.print(i + ": ");
-            table.get(i).printList();
-            System.out.println();
-        }
     }
 }
 
@@ -204,16 +172,14 @@ class DynamicArray<T> {
 
     public void insert(T item) {
         if (index == size) {
-            System.out.println("REPAUL");
         }
         container[index++] = item;
     }
 
-    // private void resize() {
-    //     System.out.println("REPAUL");
-    //     size = container.length * 2;
-    //     container = Arrays.copyOf(container, size);
-    // }
+    private void resize() {
+        size = container.length * 2;
+        container = Arrays.copyOf(container, size);
+    }
 
     public T get(int i) {
         return (T) container[i];
@@ -229,7 +195,6 @@ class DoublyLinkedList<T> {
     public Node tail;
 
     public DoublyLinkedList() {
-        System.out.println("DOublyLinkedLis trhas been summoned");
         head = null;
         tail = null;
     }
@@ -343,7 +308,6 @@ class DoublyLinkedList<T> {
     public void printList() {
         Node temp = head; // start at the head node
         while (temp != null) {
-            System.out.print(temp.get() + " ");
             temp = temp.next; // go to next node
         }
     }
