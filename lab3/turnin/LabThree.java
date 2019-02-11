@@ -35,7 +35,8 @@ public class LabThree {
                 //         + tempId.substring(tempId.indexOf("-") + 1, tempId.indexOf("-") + 2);        
                 int id = Integer.parseInt(tempId);
                 // Customer visitor = new Customer(fname, lname, id);
-                mod.HashInsert(id);
+                // mod.HashInsert(id);
+                mod.tableTest();
                 // System.out.println(id);
             }
             reader.close();
@@ -48,12 +49,13 @@ public class LabThree {
 
 class Hashtable {
     private DoublyLinkedList insertDLL;
-    private DynamicArray<DoublyLinkedList> table = new DynamicArray<DoublyLinkedList>(insertDLL);
+    // private DynamicArray<DoublyLinkedList> table = new DynamicArray<DoublyLinkedList>(insertDLL);
+    public DoublyLinkedList<Node> table = new DoublyLinkedList<Node>();
     private int collisions = 0;
     private int hashOption;
 
     public Hashtable(int s, int option) {
-        this.table.resize(s);
+        // this.table.resize(s);
         this.hashOption = option;
     }
 
@@ -61,34 +63,45 @@ class Hashtable {
         return collisions;
     }
 
-    public void HashInsert(int key) {
-        if (HashSearch(key) == -1) {
-            System.out.println("EQUALS -1: key: "+key+" getHash: "+getHash(key));
-            DoublyLinkedList bucketList = (DoublyLinkedList)table.get((getHash(key)));
-            Node item = new Node(key);
-            item.setNext(null);
-            bucketList.append(item);
-        }
+    public void tableTest()
+    {
+        DoublyLinkedList dll = table.insert(0);
+        // printList(table.get(0));
     }
 
-    public int HashSearch(int key) {
-        System.out.println("GETHASH: "+getHash(key));
-        DoublyLinkedList bucketList = (DoublyLinkedList)table.get(getHash(key));
-        Node itemNode = listSearch(bucketList, key);
-        if(bucketList.isEmpty())
-        if (itemNode != null)
-            return ((int) itemNode.get());
-        else
-            return -1;
-    }
+    // public void HashInsert(int key) {
+    //     if (HashSearch(key) == -1) {
+    //         System.out.println("EQUALS -1: key: "+key+" getHash: "+getHash(key));
+    //         DoublyLinkedList bucketList = (DoublyLinkedList)table.get((getHash(key)));
+    //         Node item = new Node(key);
+    //         item.setNext(null);
+    //         bucketList.append(item);
+    //     }
+    // }
 
-    public Node listSearch(DoublyLinkedList dll, int key) {
-        Node temp = dll.head; // start at the head node
-        while ((int) temp.get() != key) {
-            temp = temp.getNextNode(); // go to next node
-        }
-        return temp;
-    }
+    // public int HashSearch(int key) {
+    //     System.out.println("GETHASH: "+getHash(key));
+    //     DoublyLinkedList bucketList = table.get(getHash(key));
+    //     bucketList.append(new Node(123));
+    //     Node itemNode;
+    //     if(bucketList.isEmpty())
+    //         itemNode = null;
+    //     else
+    //         itemNode = listSearch(bucketList, key);
+
+    //     if (itemNode != null)
+    //         return ((int) itemNode.get());
+    //     else
+    //         return -1;
+    // }
+
+    // public Node listSearch(DoublyLinkedList dll, int key) {
+    //     Node temp = dll.head; // start at the head node
+    //     while ((int) temp.get() != key) {
+    //         temp = temp.getNextNode(); // go to next node
+    //     }
+    //     return temp;
+    // }
 
     public int getHash(int key) {
         // mod
