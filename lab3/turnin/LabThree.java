@@ -76,15 +76,15 @@ class Hashtable {
         return collisions;
     }
 
-    public void tableTest() {
-        DoublyLinkedList hello = table.get(0);
-        hello.append(new Node(123));
-        DoublyLinkedList bye = table.get(1);
-        bye.append(new Node(1113));
-        DoublyLinkedList ss = table.get(9);
-        ss.append(new Node(432));
-        printTable();
-    }
+    // public void tableTest() {
+    //     DoublyLinkedList hello = table.get(0);
+    //     hello.append(new Node(123));
+    //     DoublyLinkedList bye = table.get(1);
+    //     bye.append(new Node(1113));
+    //     DoublyLinkedList ss = table.get(9);
+    //     ss.append(new Node(432));
+    //     printTable();
+    // }
 
     public void HashInsert(int key) {
         if (HashSearch(key) == -1) {
@@ -99,6 +99,10 @@ class Hashtable {
     public int HashSearch(int key) {
         System.out.println("KEY: "+key);
         System.out.println("hash: "+getHash(key));
+        if(getHash(key)>table.getSize())
+        {
+
+        }
         DoublyLinkedList bucketList = table.get(getHash(key));
         // bucketList.append(new Node(123));
         printTable();
@@ -155,14 +159,14 @@ class Hashtable {
         // }
         // mul
         if (hashOption == 2) {
-        int stringHash = 0;
+        int stringHash = 7;
 
         String data = Integer.toString(key);
         for (int i = 0; i < data.length(); i++) {
         Character c = data.charAt(i);
         stringHash = (stringHash * 3) + c;
         }
-        return stringHash % 10;
+        return stringHash % 13;
         }
 
 
@@ -189,15 +193,16 @@ class DynamicArray<T> {
 
     public void insert(T item) {
         if (index == size) {
-            resize();
+            System.out.println("REPAUL");
         }
         container[index++] = item;
     }
 
-    private void resize() {
-        size = container.length * 2;
-        container = Arrays.copyOf(container, size);
-    }
+    // private void resize() {
+    //     System.out.println("REPAUL");
+    //     size = container.length * 2;
+    //     container = Arrays.copyOf(container, size);
+    // }
 
     public T get(int i) {
         return (T) container[i];
