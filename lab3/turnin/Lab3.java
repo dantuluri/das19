@@ -179,6 +179,11 @@ class DynamicArray<T> {
     private void resize() {
         size = container.length * 2;
         container = Arrays.copyOf(container, size);
+        Obkect[] new container = new Object[contianer.length*2];
+        for(int i = 0;i<container.length;i++)
+            newContainer[i] = container[i];
+        container = newContainer;
+        size = container.length
     }
 
     public T get(int i) {

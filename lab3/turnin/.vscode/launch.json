@@ -2,9 +2,9 @@
     "configurations": [
         {
             "type": "java",
-            "name": "CodeLens (Launch) - LabThree",
+            "name": "Debug (Launch) - Current File",
             "request": "launch",
-            "mainClass": "LabThree"
+            "mainClass": "${file}"
         }
     ]
 }

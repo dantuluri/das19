@@ -17,7 +17,8 @@ public class Lab4
 		four.run();
 	}
 
-	public void run() {
+	public void run() 
+	{
 		try (Scanner reader = new Scanner(new FileReader("Customer.csv"))) 
 		{
 			reader.useDelimiter(",");
@@ -26,17 +27,11 @@ public class Lab4
                 // Input
 				String inputInitial = reader.nextLine();
 				String[] tempArray = inputInitial.split(",");
-				String fname = tempArray[0];
-				String lname = tempArray[1];
 				String tempId = tempArray[2];
 				tempId = tempId.substring(0, tempId.indexOf("-") - 2);
 				int id = Integer.parseInt(tempId);
 
-				Customer visitor = new Customer(fname, lname, id);
 
-				mod.HashInsert(visitor);
-				mid.HashInsert(visitor);
-				mul.HashInsert(visitor);
 			}
 			reader.close();
 		}
@@ -45,8 +40,30 @@ public class Lab4
 			ex.printStackTrace();
 		}
 	}
+}
 
-	class TreeNode<T>
-	T data
-	TreeNode<T> left
-	TreeNode<T> right
+class BinarySearchTree
+{
+	public BinarySearchTree(int s)
+	{
+		
+	}
+}
+
+class TreeNode<T>
+{
+	T data;
+	TreeNode<T> left;
+	TreeNode<T> right;
+}
+
+
+
+
+
+
+
+
+
+
+
