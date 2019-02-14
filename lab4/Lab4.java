@@ -20,7 +20,8 @@ public class Lab4
 	public void run() 
 	{
 		BinarySearchTree tree = new BinarySearchTree();
-		tree.insert(new TreeNode(0));
+		tree.insert(new TreeNode(97987));
+		tree.printTree();
 		// try (Scanner reader = new Scanner(new FileReader("Customer.csv"))) 
 		// {
 		// 	reader.useDelimiter(",");
@@ -59,19 +60,19 @@ class BinarySearchTree
 		if(root==null)
 		{
 			root = leaf;
-			root.left = null;
-			root.right = null;
+			root.setLeft(null);
+			root.setRight(null);
 		}
 		else
 		{
 			TreeNode iterate = root;
 			while(iterate!=null)
 			{
-				if((Integer)leaf.data<(Integer)iterate.data)
+				if((Integer)leaf.get()<(Integer)iterate.get())
 				{
 					if(iterate.left==null)
 					{
-						iterate.left = leaf;
+						iterate.setLeft(leaf);
 						iterate = null;
 					}
 					else
@@ -83,7 +84,7 @@ class BinarySearchTree
 				{
 					if(iterate.right==null)
 					{
-						iterate.right = leaf;
+						iterate.setRight(leaf);
 						iterate = null;
 					}
 					else
@@ -92,19 +93,49 @@ class BinarySearchTree
 					}
 				}
 			}
-			leaf.left = null;
-			leaf.right = null;
+			leaf.setLeft(null);
+			leaf.setRight(null);
 		}
 	}
+
+	public void printTree()
+	{
+		System.out.println("Root: "+root.get());
+	}
 }
-
-
 
 class TreeNode<T>
 {
 	T data;
 	TreeNode<T> left;
 	TreeNode<T> right;
+
+	public TreeNode(T t)
+	{
+		data = t;
+		left = null;
+		right = null;
+	}
+
+	public T get()
+	{
+		return data;
+	}
+
+	public void set(T t)
+	{
+		data = t;
+	}
+
+	public void setLeft(TreeNode nextLeaf)
+	{
+		left = nextLeaf;
+	}
+
+	public void setRight(TreeNode prevLeaf)
+	{
+		right = prevLeaf;
+	}
 }
 
 
