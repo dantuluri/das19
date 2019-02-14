@@ -44,11 +44,41 @@ public class Lab4
 
 class BinarySearchTree
 {
-	public BinarySearchTree(int s)
+	public int size;
+	private Node root;
+	public BinarySearchTree()
 	{
-		
+		size = 0;
 	}
+	public void insert(Node leaf)
+	BSTInsert(tree, node) {
+		if (tree->root is null)
+		  tree->root = node
+		  node->left = null
+		  node->right = null
+		else
+		  cur = tree->root
+		  while (cur is not null) 
+			if (node->key < cur->key)
+			   if (cur->left is null)
+				 cur->left = node
+				 cur = null
+			   else
+				 cur = cur->left
+			else 
+			   if (cur->right is null)
+				 cur->right = node
+				 cur = null
+			   else
+				 cur = cur->right       
+		  node->left = null
+		  node->right = null
+	   }
+
+
 }
+
+
 
 class TreeNode<T>
 {
