@@ -19,40 +19,42 @@ public class Lab4
 
 	public void run() 
 	{
-		try (Scanner reader = new Scanner(new FileReader("Customer.csv"))) 
-		{
-			reader.useDelimiter(",");
-			while (reader.hasNextLine()) 
-			{
-                // Input
-				String inputInitial = reader.nextLine();
-				String[] tempArray = inputInitial.split(",");
-				String tempId = tempArray[2];
-				tempId = tempId.substring(0, tempId.indexOf("-") - 2);
-				int id = Integer.parseInt(tempId);
+		BinarySearchTree tree = new BinarySearchTree();
+		tree.insert(new TreeNode(0));
+		// try (Scanner reader = new Scanner(new FileReader("Customer.csv"))) 
+		// {
+		// 	reader.useDelimiter(",");
+		// 	while (reader.hasNextLine()) 
+		// 	{
+        //         // Input
+		// 		String inputInitial = reader.nextLine();
+		// 		String[] tempArray = inputInitial.split(",");
+		// 		String tempId = tempArray[2];
+		// 		tempId = tempId.substring(0, tempId.indexOf("-") - 2);
+		// 		int id = Integer.parseInt(tempId);
 
 
-			}
-			reader.close();
-		}
-		catch (IOException | InputMismatchException ex) 
-		{
-			ex.printStackTrace();
-		}
+		// 	}
+		// 	reader.close();
+		// }
+		// catch (IOException | InputMismatchException ex) 
+		// {
+		// 	ex.printStackTrace();
+		// }
 	}
 }
 
 class BinarySearchTree
 {
 	public int size;
-	private Node root;
+	private TreeNode root;
 
 	public BinarySearchTree()
 	{
 		size = 0;
 		root = null;
 	}
-	public void insert(Node leaf)
+	public void insert(TreeNode leaf)
 	{
 		if(root==null)
 		{
@@ -62,10 +64,10 @@ class BinarySearchTree
 		}
 		else
 		{
-			Node iterate = root;
+			TreeNode iterate = root;
 			while(iterate!=null)
 			{
-				if(leaf.data<iterate.data)
+				if((Integer)leaf.data<(Integer)iterate.data)
 				{
 					if(iterate.left==null)
 					{
