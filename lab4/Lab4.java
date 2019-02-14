@@ -46,36 +46,54 @@ class BinarySearchTree
 {
 	public int size;
 	private Node root;
+
 	public BinarySearchTree()
 	{
 		size = 0;
+		root = null;
 	}
 	public void insert(Node leaf)
-	BSTInsert(tree, node) {
-		if (tree->root is null)
-		  tree->root = node
-		  node->left = null
-		  node->right = null
+	{
+		if(root==null)
+		{
+			root = leaf;
+			root.left = null;
+			root.right = null;
+		}
 		else
-		  cur = tree->root
-		  while (cur is not null) 
-			if (node->key < cur->key)
-			   if (cur->left is null)
-				 cur->left = node
-				 cur = null
-			   else
-				 cur = cur->left
-			else 
-			   if (cur->right is null)
-				 cur->right = node
-				 cur = null
-			   else
-				 cur = cur->right       
-		  node->left = null
-		  node->right = null
-	   }
-
-
+		{
+			Node iterate = root;
+			while(iterate!=null)
+			{
+				if(leaf.data<iterate.data)
+				{
+					if(iterate.left==null)
+					{
+						iterate.left = leaf;
+						iterate = null;
+					}
+					else
+					{
+						iterate = iterate.left;
+					}
+				}
+				else
+				{
+					if(iterate.right==null)
+					{
+						iterate.right = leaf;
+						iterate = null;
+					}
+					else
+					{
+						iterate = iterate.right;
+					}
+				}
+			}
+			leaf.left = null;
+			leaf.right = null;
+		}
+	}
 }
 
 
