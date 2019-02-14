@@ -20,28 +20,30 @@ public class Lab4
 	public void run() 
 	{
 		BinarySearchTree tree = new BinarySearchTree();
-		tree.insert(new TreeNode(97987));
-		tree.printTree();
-		// try (Scanner reader = new Scanner(new FileReader("Customer.csv"))) 
-		// {
-		// 	reader.useDelimiter(",");
-		// 	while (reader.hasNextLine()) 
-		// 	{
-        //         // Input
-		// 		String inputInitial = reader.nextLine();
-		// 		String[] tempArray = inputInitial.split(",");
-		// 		String tempId = tempArray[2];
-		// 		tempId = tempId.substring(0, tempId.indexOf("-") - 2);
-		// 		int id = Integer.parseInt(tempId);
 
+		try (Scanner reader = new Scanner(new FileReader("Customer.csv"))) 
+		{
+			reader.useDelimiter(",");
+			while (reader.hasNextLine()) 
+			{
+                // Input
+				String inputInitial = reader.nextLine();
+				String[] tempArray = inputInitial.split(",");
+				String tempId = tempArray[2];
+				tempId = tempId.substring(0, tempId.indexOf("-") - 2);
+				int id = Integer.parseInt(tempId);
+				
+				tree.insert(new TreeNode(id));
 
-		// 	}
-		// 	reader.close();
-		// }
-		// catch (IOException | InputMismatchException ex) 
-		// {
-		// 	ex.printStackTrace();
-		// }
+			}
+			reader.close();
+		}
+		catch (IOException | InputMismatchException ex) 
+		{
+			ex.printStackTrace();
+		}
+
+		tree.inOrder(tree.getRoot());
 	}
 }
 
@@ -98,10 +100,51 @@ class BinarySearchTree
 		}
 	}
 
-	public void printTree()
+	public TreeNode search(TreeNode leaf)
 	{
-		System.out.println("Root: "+root.get());
+		TreeNode iterate = root;
+		while(iterate!=null)
+		{
+			if((Integer)leaf.get()==(Integer)iterate.get())
+			{
+				return iterate;
+			}
+			else if((Integer)leaf.get()<(Integer)iterate.get())
+			{
+				iterate = iterate.left;
+			}
+			else
+			{
+				iterate = iterate.right;
+			}
+		}
+		return null;
 	}
+
+	public void inOrder(TreeNode leaf)
+	{
+		if(leaf==null)
+			return;
+		inOrder(leaf.left);
+		System.out.println((Integer)leaf.get());
+		inOrder(leaf.right);
+	}
+
+	public int getHeight(TreeNode leaf)
+	{
+		if(leaf==null)
+			return -1;
+		
+		int leftHeight = getHeight(leaf.left);
+		int rightHeight = getHeight(leaf.right);
+		return 1+Math.max(leftHeight,rightHeight);
+	}
+	
+	public TreeNode getRoot()
+	{
+		return root;
+	}
+
 }
 
 class TreeNode<T>
