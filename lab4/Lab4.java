@@ -20,28 +20,28 @@ public class Lab4
 	public void run() 
 	{
 		BinarySearchTree tree = new BinarySearchTree();
-
-		try (Scanner reader = new Scanner(new FileReader("Customer.csv"))) 
-		{
-			reader.useDelimiter(",");
-			while (reader.hasNextLine()) 
-			{
-                // Input
-				String inputInitial = reader.nextLine();
-				String[] tempArray = inputInitial.split(",");
-				String tempId = tempArray[2];
-				tempId = tempId.substring(0, tempId.indexOf("-") - 2);
-				int id = Integer.parseInt(tempId);
+		tree.insert(new TreeNode(id));
+		// try (Scanner reader = new Scanner(new FileReader("Customer.csv"))) 
+		// {
+		// 	reader.useDelimiter(",");
+		// 	while (reader.hasNextLine()) 
+		// 	{
+        //         // Input
+		// 		String inputInitial = reader.nextLine();
+		// 		String[] tempArray = inputInitial.split(",");
+		// 		String tempId = tempArray[2];
+		// 		tempId = tempId.substring(0, tempId.indexOf("-") - 2);
+		// 		int id = Integer.parseInt(tempId);
 				
-				tree.insert(new TreeNode(id));
+		// 		tree.insert(new TreeNode(id));
 
-			}
-			reader.close();
-		}
-		catch (IOException | InputMismatchException ex) 
-		{
-			ex.printStackTrace();
-		}
+		// 	}
+		// 	reader.close();
+		// }
+		// catch (IOException | InputMismatchException ex) 
+		// {
+		// 	ex.printStackTrace();
+		// }
 
 		tree.inOrder(tree.getRoot());
 	}
