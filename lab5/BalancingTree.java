@@ -2,50 +2,27 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Lab4.java
+ * Lab5.java
  * 
  * @author Surya Dantuluri
  * @version 1.0
- * @since 2/12/2019
+ * @since 3/8/2019
  */
 
-public class Lab4 
+public class BalancingTree
 {
-	public static void main(String[] args) 
+	public static void main(String[]args)
 	{
-		Lab4 four = new Lab4();
-		four.run();
+		BalancingTree tree = new BalancingTree();
+		tree.run();
 	}
 
-	public void run() 
+	public void run()
 	{
-		BinarySearchTree tree = new BinarySearchTree();
-		try (Scanner reader = new Scanner(new FileReader("Customer.csv"))) 
-		{
-			reader.useDelimiter(",");
-			while (reader.hasNextLine()) 
-			{
-                // Input
-				String inputInitial = reader.nextLine();
-				String[] tempArray = inputInitial.split(",");
-				String tempId = tempArray[2];
-				tempId = tempId.substring(0, tempId.indexOf("-") - 2);
-				int id = Integer.parseInt(tempId);
-				
-				tree.insert(new TreeNode(id));
-
-			}
-			reader.close();
-		}
-		catch (IOException | InputMismatchException ex) 
-		{
-			ex.printStackTrace();
-		}
-
-		tree.inOrder(tree.getRoot());
-		System.out.println("Is the tree balanced? Answer: "+tree.isBalanced());
 
 	}
+
+	public booleanvhrvkm=Monogonic invrsdo=in
 }
 
 class BinarySearchTree
@@ -167,7 +144,6 @@ class BinarySearchTree
 	{
 		return root;
 	}
-
 }
 
 class TreeNode<T>
@@ -203,14 +179,3 @@ class TreeNode<T>
 		right = prevLeaf;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
