@@ -11,7 +11,7 @@ import java.util.*;
 
 public class Lab5 
 {
-	BinarySearchTree<Integer> tree = new BinarySearchTree<Integer>();
+	BinarySearchTree tree = new BinarySearchTree();
 
 	public static void main(String[] args) 
 	{
@@ -22,34 +22,32 @@ public class Lab5
 	public void run()
 	{
 		// EDIT NODE COUNT
-		int nodes = 20;
+		int nodes = 10;
 
 		for(int i = 1;i<nodes+1;i++)
 		{
-			tree.insert(new TreeNode<Integer>(i, null, null));
+			tree.insert(new TreeNode(i));
 		}
-
 
 		//Print Output
-		String[] arr = tree.expressAsArray();
+		String[] arr = tree.printer();
 
 		System.out.println("Before: ");
-		for (int i = 0; i < arr.length-1; i++) {
+		for (int i = 0; i < arr.length-1; i++)
 			System.out.print(arr[i]+" - ");
-		}
 		System.out.print(arr[arr.length-1]);
 
 		System.out.println();
 		System.out.println();
 
-		TreeNode
 		// Pinpoint center
 		tree.setRoot(center(tree.getRoot()));
+		// System.out.println("Root value "+tree.getRoot().get());
 
 		// Rotate tree
-		BinarySearchTree<Integer> newTree = verify(tree.getRoot());
+		BinarySearchTree goodTree = verify(tree, tree.getRoot());
 
-		arr = newTree.expressAsArray();
+		arr = goodTree.printer();
 		System.out.println("After: ");
 		for (int i = 0; i < arr.length; i++) {
 			System.out.println(arr[i]);
@@ -57,11 +55,12 @@ public class Lab5
 
 	}
 
-	public TreeNode<Integer> center(TreeNode<Integer> root) 
+	public TreeNode center(TreeNode root) 
 	{
 		boolean notNull;
 		if(root == null)
 		{
+			// System.out.println("Root is null");
 			return null;
 		}
 		if (root.getRight() != null || root.getLeft() != null) 
@@ -70,9 +69,9 @@ public class Lab5
 			if(root.getRight() != null)
 				notNull = false;
 
-			Stack<TreeNode<Integer>> treeStack = new Stack<TreeNode<Integer>>();
+			Stack<TreeNode> treeStack = new Stack<TreeNode>();
 
-			int height = tree.treeHeight(tree, root);
+			int height = tree.getHeight(tree, root);
 			int size = height/2;
 
 			if(height%2 == 0)
@@ -87,10 +86,10 @@ public class Lab5
 					root = root.getRight();
 			}
 
-			TreeNode<Integer> findRoot = root;
+			TreeNode temp = root;
 			while (!treeStack.isEmpty()) 
 			{
-				TreeNode<Integer> node = treeStack.pop();
+				TreeNode node = treeStack.pop();
 				if(notNull)
 				{
 					node.setLeft(null);
@@ -106,34 +105,35 @@ public class Lab5
 					root = root.getLeft();
 				}
 			}
-			return findRoot;
+			return temp;
 		} 
 		return root;
 	}
 
-	public BinarySearchTree<Integer> verify(TreeNode<Integer> root) 
-
+	public BinarySearchTree verify(BinarySearchTree incompleteTree, TreeNode root) 
 	{
 		if(root == null) 
-			return inputTree;
+			return incompleteTree;
 
-		root.setLeft(center(inputTree, root.getLeft()));
-		root.setRight(center(inputTree, root.getRight()));
+		root.setLeft(center(root.getLeft()));
+		root.setRight(center(root.getRight()));
 
 		if(root.getLeft()!=null)
-			verify(inputTree, root.getLeft());
-		if(root.getRight()!=null)
-			verify(inputTree, root.getRight());
+			verify(incompleteTree, root.getLeft());
 
-		return inputTree;
+		if(root.getRight()!=null)
+			verify(incompleteTree, root.getRight());
+
+		return tree;
 	}
 }
 
 
-class BinarySearchTree<E>
+class BinarySearchTree
 {
 	public int size, count;
 	private TreeNode root;
+	private String[] arrayRep;
 
 	public BinarySearchTree()
 	{
@@ -182,6 +182,11 @@ class BinarySearchTree<E>
 			leaf.setLeft(null);
 			leaf.setRight(null);
 		}
+	}
+
+	public void setRoot(TreeNode node)
+	{
+		root = node;
 	}
 
 	public TreeNode search(TreeNode leaf)
@@ -235,14 +240,15 @@ class BinarySearchTree<E>
 		return count;
 	}
 
-	public int getHeight(TreeNode leaf)
+	public int getHeight(BinarySearchTree inTree, TreeNode leaf)
 	{
 		if(leaf==null)
-			return -1;
+			return 0;
 		
-		int leftHeight = getHeight(leaf.left);
-		int rightHeight = getHeight(leaf.right);
+		int leftHeight = getHeight(inTree, leaf.left);
+		int rightHeight = getHeight(inTree, leaf.right);
 		return 1+Math.max(leftHeight,rightHeight);
+		// return Math.max(getHeight(inTree, leaf.getLeft()), getHeight(inTree, leaf.getRight())) + 1;
 	}
 	
 	public TreeNode getRoot()
@@ -250,252 +256,70 @@ class BinarySearchTree<E>
 		return root;
 	}
 
-	public String[] expressAsArray()
+	public String[] printer()
 	{
-		arrayRep = new String[this.treeHeight(this, this.getRootNode())];
+		arrayRep = new String[this.getHeight(this, this.getRoot())];
+		// System.out.println("r "+this.getRoot().get());
+		// System.out.println("");
+		// System.out.println("debug2 "+this.getHeight(this, this.getRoot()));
 		for(int i=0; i<arrayRep.length; i++)
 			arrayRep[i] = "";
-		expressAsArrayHelper(0, this.getRootNode());
+		printRecurse(0, this.getRoot());
 		return arrayRep;
 	}
 	
-	private void expressAsArrayHelper(int level, TreeNode<E> current)
+	private void printRecurse(int level, TreeNode current)
 	{
 		if(current == null)
-		{
 			return;
-		}
-		arrayRep[level] += current.getValue() + " ";
-		expressAsArrayHelper(level + 1, current.getLeft());
-		expressAsArrayHelper(level + 1, current.getRight());
+		arrayRep[level] += current.get() + " ";
+		printRecurse(level + 1, current.getLeft());
+		printRecurse(level + 1, current.getRight());
 	}
-
-	public void setRoot(TreeNode<E> node)
-	{
-		root = node;
-	}
-
 
 }
 
-class LinkedList<T> extends List<T> 
+class TreeNode<T>
 {
-	private static int size = 0;
-	
-	@Override
-	public void insert(LinkedList<T> list, ListNode<T> current, ListNode<T> toAdd)
-	{
-		if(getHead() == null)
-		{
-			list.setHead(toAdd);
-			list.setTail(toAdd);
-		}
-		else if(current == getTail())
-		{
-			list.getTail().setNext(toAdd);
-			toAdd.setPrevious(list.getTail());
-			list.setTail(toAdd);
-		}
-		else
-		{
-			ListNode<T> successive = current.getNext();
-			toAdd.setNext(successive);
-			toAdd.setPrevious(current);
-			current.setNext(toAdd);
-			successive.setPrevious(toAdd);
-		}
-		size++;
-	}
+	T data;
+	TreeNode<T> left;
+	TreeNode<T> right;
 
-	@Override
-	public void remove(LinkedList<T> list, ListNode<T> current)
+	public TreeNode(T t)
 	{
-		ListNode<T> successive = current.getNext();
-		ListNode<T> previous = current.getPrevious();
-		if(successive!=null)
-		{
-			successive.setPrevious(previous);
-		}
-		if(previous!=null)
-		{
-			previous.setNext(successive);
-		}
-		if(current==list.getHead())
-		{
-			list.setHead(successive);
-		}
-		if(current==list.getTail())
-		{
-			list.setTail(previous);
-		}
-		size--;
-	}
-	
-	public void append(LinkedList<T> list, ListNode<T> toAdd)
-	{
-		if(list.getHead()==null)
-		{
-			list.setHead(toAdd);
-			list.setTail(toAdd);
-		}
-		else
-		{
-			list.getTail().setNext(toAdd);
-			toAdd.setPrevious(list.getTail());
-			list.setTail(toAdd);
-		}
-		size++;
-	}
-	
-	public void prepend(LinkedList<T> list, ListNode<T> toAdd)
-	{
-		if(list.getHead()==null)
-		{
-			list.setHead(toAdd);
-			list.setTail(toAdd);
-		}
-		else
-		{
-			toAdd.setNext(list.getHead());
-			list.getHead().setPrevious(toAdd);
-			list.setHead(toAdd);
-		}
-		size++;
-	}
-	public static int getSize()
-	{
-		return size;
-	}
-	public void printList()
-	{
-		System.out.println("Current list: ");
-		for(ListNode<T> i = this.getHead(); i != null; i = i.getNext())
-		{
-			System.out.print(i.getValue() + " ");
-		}
-		System.out.println();
-	}
-}
-
-abstract class List<T> 
-{
-	private ListNode<T> head;
-	private ListNode<T> tail;
-	
-	public List()
-	{
-		this.head = null;
-		this.tail = null;
-	}
-	public ListNode<T> getHead()
-	{
-		return head;
-	}
-	public ListNode<T> getTail()
-	{
-		return tail;
-	}
-	protected void setHead(ListNode<T> toHead)
-	{
-		head = toHead;
-	}
-	protected void setTail(ListNode<T> toTail)
-	{
-		tail = toTail;
-	}
-	public abstract void insert(LinkedList<T> list, ListNode<T> current, ListNode<T> toAdd);
-	public abstract void remove(LinkedList<T> list, ListNode<T> current);
-}
-
-class ListNode<E>
-{
-	
-	private E value;
-	private ListNode<E> next;
-	private ListNode<E> previous;
-	
-	public ListNode(E item, ListNode<E> previous, ListNode<E> next)
-	{
-		value = item;
-		this.next = next;
-		this.previous = previous;
-	}
-	
-	public void setNext(ListNode<E> next)
-	{
-		this.next = next;
-	}
-	public ListNode<E> getNext()
-	{
-		return next;
-	}
-	public void setPrevious(ListNode<E> previous)
-	{
-		this.previous = previous;
-	}
-	public ListNode<E> getPrevious()
-	{
-		return previous;
-	}
-	public E getValue()
-	{
-		return value;
-	}
-}
-
-class TreeNode<Comparable> {
-	
-	private Comparable value;
-	private TreeNode<Comparable> left;
-	private TreeNode<Comparable> right;
-	
-	public TreeNode(Comparable value)
-	{
-		this.value = value;
+		data = t;
 		left = null;
 		right = null;
 	}
-	
-	public TreeNode(Comparable value, TreeNode<Comparable> left, TreeNode<Comparable> right)
+
+	public T get()
 	{
-		this.value = value;
-		this.left = left;
-		this.right = right;
+		return data;
 	}
-	
-	public void setLeft(TreeNode<Comparable> newLeft)
+
+	public void set(T t)
 	{
-		left = newLeft;
+		data = t;
 	}
-	
-	public void setRight(TreeNode<Comparable> newRight)
+
+	public void setLeft(TreeNode nextLeaf)
 	{
-		right = newRight;
+		left = nextLeaf;
 	}
-	
-	public void setValue(Comparable value)
+
+	public void setRight(TreeNode prevLeaf)
 	{
-		this.value = value;
+		right = prevLeaf;
 	}
-	
-	public TreeNode<Comparable> getRight()
-	{
-		return right;
-	}
-	
-	public TreeNode<Comparable> getLeft()
+
+	public TreeNode getLeft()
 	{
 		return left;
 	}
-	
-	public Comparable getValue()
+
+	public TreeNode getRight()
 	{
-		return value;
-	}
-	
-	public String toString()
-	{
-		return value + "";
+		return right;
 	}
 }
 
