@@ -1,6 +1,9 @@
-Dijkstra’s Algorithm
+Dijkstra's Algorithm
 ===
-![bg original](images/background.png)
+![bg original](backD.png)
+<!-- page_number: true -->
+<!-- footer: Team Name -->
+
 
 
 ##### A Deep Dive and Implementation 
@@ -11,221 +14,118 @@ Dijkstra’s Algorithm
 
 # Introduction
 
-- **Slides are written in Markdown.**
-- Cross-platform. Supports Windows, Mac, and Linux
-- Live Preview with 3 modes
-- Slide themes (`default`, `gaia`) and custom background images
-- Supports emoji :heart:
-- Render maths in your slides
-- Export your slides to PDF
+- **"Simplicity is a prerequisite for reliability" - Edsger Dijkstra**
+- ![bg original](mp.png)
+- A search algorithm and graph data structure designed to find the shortest path between two nodes in a connected graph.
+- Designed by Edsgar Dijkstra in 1956
 
 ---
 
-# How to write slides?
+# Explanation
+![](fig.jpeg)
 
-Split slides by horizontal ruler `---`. It's very simple.
+- There are nodes (or vertices)
+- Weigted edges connect nodes
 
-```md
-# Slide 1
+---
+# Explanation Continued
+- ```dist``` initialized, an array to store distances from source node
+  - ```dist(s) = 0``` since the distance from source node should be 0
+  - ```dist(v) = infinity``` since distances to all other nodes are unknown
+  - $Q$, a queue is used to store all nodes in the graph, $Q$ will be empty by the time the algorithm is done
+  - $S$ represents the set of nodes the algorithm visited
 
-foobar
+---
+# Psuedo-explanation
+Suppose you have this connected graph:
+![](graph1.png)
 
 ---
 
-# Slide 2
-
-foobar
-```
-
-> *Notice: Ruler (`<hr>`) is not displayed in Marp.*
+Calculate distances to adjacent nodes
+![](graph2.png)
 
 ---
 
-# Directives
-
-Marp's Markdown has extended directives to affect slides.
-
-Insert HTML comment as below:
-```html
-<!-- {directive_name}: {value} -->
-```
-
-```html
-<!--
-{first_directive_name}:  {value}
-{second_directive_name}: {value}
-...
--->
-```
----
-
-## Global Directives
-
-### `$theme`
-
-Changes the theme of all the slides in the deck. You can also change from `View -> Theme` menu.
-
-```
-<!-- $theme: gaia -->
-```
-
-|Theme name|Value|Directive|
-|:-:|:-:|:-|
-|***Default***|default|`<!-- $theme: default -->`
-|**Gaia**|gaia|`<!-- $theme: gaia -->`
-
+Pick node closest to source node
+![](graph3.png)
 
 ---
 
-### `$width` / `$height`
-
-Changes width and height of all the slides.
-
-You can use units: `px` (default), `cm`, `mm`, `in`, `pt`, and `pc`.
-
-```html
-<!-- $width: 12in -->
-```
-
-### `$size`
-
-Changes slide size by presets.
-
-Presets: `4:3`, `16:9`, `A0`-`A8`, `B0`-`B8` and suffix of `-portrait`.
-
-```html
-<!-- $size: 16:9 -->
-```
-
-<!--
-$size: a4
-
-Example is here. Global Directive is enabled in anywhere.
-It apply the latest value if you write multiple same Global Directives.
--->
+Finally we get
+![](graph4.png)
 
 ---
-
-## Page Directives
-
-The page directive would apply to the  **current page and the following pages**.
-You should insert it *at the top* to apply it to all slides.
-
-### `page_number`
-
-Set `true` to show page number on slides. *See lower right!*
-
-```html
-<!-- page_number: true -->
-```
-
-<!--
-page_number: true
-
-Example is here. Pagination starts from this page.
-If you use multi-line comment, directives should write to each new lines.
--->
-
----
-
-### `template`
-
-Set to use template of theme.
-
-The `template` directive just enables that using theme supports templates.
-
-```html
-<!--
-$theme: gaia
-template: invert
--->
-
-Example: Set "invert" template of Gaia theme.
-```
-
----
-
-### `footer`
-
-Add a footer to the current slide and all of the following slides
-
-```html
-<!-- footer: This is a footer -->
-```
-
-Example: Adds "This is a footer" in the bottom of each slide
-
----
-
-### `prerender`
-
-Pre-renders a slide, which can prevent issues with very large background images.
-
-```html
-<!-- prerender: true -->
-```
-
----
-
-## Pro Tips
-
-#### Apply page directive to current slide only
-
-Page directive can be selectively applied to the current slide by prefixing the page directive with `*`.
+# Psuedocode
 
 ```
-<!-- *page_number: false -->
-<!-- *template: invert -->
-```
+dist[s] = 0
+for all other distances:
+	dist[v] = infinity
+   
+S					#initialize
+Q = V					#initialize V
+	
+while Q not null:		#initalize Q is not null
+	do u = minDistance(Q) #select element u w/ min dis
+    	S = S union {u} # add u to list of visited vert.
+        for all v in neighbors of {u}
+        	do if dist[v]>dist[u] + w(u,v)
+            		# if new shortest path found
+            		then d[v] = d[u]+w(u,v)
+                    #set value of shortest path
 
-<!--
-*page_number: false
-
-Example is here.
-Page number is not shown in current page, but it's shown on later pages.
--->
-
----
-
-#### Slide background Images
-
-You can set an image as a slide background.
-
-```html
-![bg](mybackground.png)
-```
-
-Options can be provided after `bg`, for example `![bg original](path)`.
-
-Options include:
-
-- `original` to include the image without any effects
-- `x%` to include the  image at `x` percent of the slide size
-
-Include multiple`![bg](path)` tags to stack background images horizontally.
-
-![bg](images/background.png)
-
----
-
-#### Maths Typesetting
-
-Mathematics is typeset using the `KaTeX` package. Use `$` for inline maths, such as $ax^2+bc+c$, and `$$` for block maths:
-
-$$I_{xx}=\int\int_Ry^2f(x,y)\cdot{}dydx$$
-
-```html
-This is inline: $ax^2+bx+c$, and this is block:
-
-$$I_{xx}=\int\int_Ry^2f(x,y)\cdot{}dydx$$
 
 ```
 
 ---
+# Another Implementation
+- Given a graph with weighted edges, construct a shortest-path “tree.”
+- Create a min heap and put in all the vertices.
+  - Ordered by distance from source.
+- Any node added into the SPT will be removed from this heap.
+![](fig.jpeg)
 
-## Enjoy writing slides! :+1:
+---
+# Another Implementation Continued 
+- Start by adding the source node into the SPT.
+- Retrieve the top of the heap (a.k.a. the node closest to the source) and add it to the SPT.
+- Update distances of nodes adjacent to the picked node.
+- Repeat above two steps until every node is in the SPT/nothing left in the heap.
+![](william.png)
 
-### https://github.com/yhatt/marp
 
-Copyright &copy; 2016 [Yuki Hattori](https://github.com/yhatt)
-This software released under the [MIT License](https://github.com/yhatt/marp/blob/master/LICENSE).
+---
+
+# Another Implementation Extended 
+- Completed SPT:
+![](green.png)
+
+---
+
+# Data Structures Used
+- Adjacency Matrix
+  - Used to store the graph.
+- Arrays
+  - Min heap and adjacency matrix implementation uses this.
+  - ArrayLists/Vectors could have been used, but that would be excessively complicated.
+- Heaps
+  - Used to determine the node closest to the source to add to the SPT.
+- Linked Lists
+  - Used as adjacency lists for each vertex.
+
+
+---
+# Big O Analysis
+- Our implementation: O(n^2)
+- Can be improved by simply storing the edges instead of the entire graph to O(ELogV)
+  - E - Number of edges.
+  - V - Number of vertices.
+
+
+---
+# Implementation
+
+---
+
+## Have a nice day!
