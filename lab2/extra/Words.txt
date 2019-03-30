@@ -3,7 +3,7 @@ and
 to
 of
 a
-I
+i
 in
 was
 he
@@ -50,7 +50,7 @@ very
 an
 who
 them
-Mr
+mr
 we
 now
 more
@@ -96,7 +96,7 @@ think
 made
 might
 being
-Mrs
+mrs
 again
 great
 two
@@ -129,7 +129,7 @@ long
 shall
 sir
 back
-don't
+dont
 house
 ever
 yet
@@ -320,7 +320,7 @@ open
 person
 call
 given
-I'll
+ill
 sometimes
 making
 short
@@ -346,10 +346,10 @@ others
 ought
 does
 known
-it's
+its
 bed
 table
-that's
+thats
 ready
 read
 already
@@ -386,7 +386,7 @@ use
 white
 bad
 everything
-can't
+cant
 neither
 wanted
 mine
@@ -430,7 +430,7 @@ except
 power
 seeing
 dead
-I'm
+im
 usual
 able
 second
@@ -480,11 +480,11 @@ turning
 daughter
 stay
 forward
-O
+o
 interest
 thoughts
 followed
-won't
+wont
 different
 opened
 several
@@ -513,7 +513,7 @@ dinner
 happened
 sitting
 getting
-there's
+theres
 besides
 soul
 ill
@@ -586,7 +586,7 @@ marriage
 book
 appearance
 pay
-I've
+ive
 obliged
 particular
 pass
@@ -623,7 +623,7 @@ cause
 send
 spirits
 chance
-didn't
+didnt
 view
 pleasant
 party
@@ -632,7 +632,7 @@ horses
 stopped
 notice
 duty
-he's
+hes
 age
 figure
 leaving
@@ -665,7 +665,7 @@ laughed
 reached
 repeated
 walking
-father's
+fathers
 heaven
 beauty
 shook
@@ -737,7 +737,7 @@ opportunity
 makes
 honest
 arrived
-you'll
+youll
 bright
 pity
 directly
@@ -773,13 +773,13 @@ pale
 pray
 books
 afternoon
-man's
+mans
 otherwise
 mention
 position
 speech
 gate
-'em
+em
 boys
 yours
 drink
@@ -815,7 +815,7 @@ kindness
 mere
 farther
 changed
-o'clock
+oclock
 passing
 girls
 force
@@ -917,7 +917,7 @@ delight
 bound
 consequence
 rain
-wouldn't
+wouldnt
 third
 hung
 ways
@@ -925,8 +925,8 @@ weather
 written
 difference
 kitchen
-she's
-mother's
+shes
+mothers
 persons
 quarter
 promised
@@ -955,7 +955,7 @@ thrown
 tired
 share
 pair
-to-morrow
+tomorrow
 aware
 colour
 writing
@@ -987,8 +987,8 @@ charge
 degree
 shame
 places
-ma'am
-couldn't
+maam
+couldnt
 tongue
 according
 box

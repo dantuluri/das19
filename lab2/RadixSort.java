@@ -35,7 +35,7 @@ public class RadixSort
 		{
 			ArrayList<Integer> input = new ArrayList<Integer>(); 
 
-			try (Scanner reader = new Scanner(new FileReader("numbers.txt")))
+			try (Scanner reader = new Scanner(new FileReader("small.txt")))
 			{
 				while (reader.hasNext()){
 					input.add(reader.nextInt());
@@ -106,6 +106,7 @@ public class RadixSort
 			int pow10 = 1;
 			for(int digitIndex = 0; digitIndex<maxDigits; digitIndex++)
 			{
+				System.out.println(Arrays.toString(array.toArray()));
 				for(int i = 0;i<arraySize; i++)
 				{
 					bucketIndex = Math.abs(array.get(i)/pow10)%10;

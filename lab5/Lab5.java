@@ -71,7 +71,7 @@ public class Lab5
 
 			Stack<TreeNode> treeStack = new Stack<TreeNode>();
 
-			int height = tree.getHeight(tree, root);
+			int height = tree.getHeight(root);
 			int size = height/2;
 
 			if(height%2 == 0)
@@ -133,7 +133,7 @@ class BinarySearchTree
 {
 	public int size, count;
 	private TreeNode root;
-	private String[] arrayRep;
+	private String[] printStack;
 
 	public BinarySearchTree()
 	{
@@ -240,13 +240,13 @@ class BinarySearchTree
 		return count;
 	}
 
-	public int getHeight(BinarySearchTree inTree, TreeNode leaf)
+	public int getHeight(TreeNode leaf)
 	{
 		if(leaf==null)
 			return 0;
 		
-		int leftHeight = getHeight(inTree, leaf.left);
-		int rightHeight = getHeight(inTree, leaf.right);
+		int leftHeight = getHeight(leaf.left);
+		int rightHeight = getHeight(leaf.right);
 		return 1+Math.max(leftHeight,rightHeight);
 		// return Math.max(getHeight(inTree, leaf.getLeft()), getHeight(inTree, leaf.getRight())) + 1;
 	}
@@ -258,21 +258,21 @@ class BinarySearchTree
 
 	public String[] printer()
 	{
-		arrayRep = new String[this.getHeight(this, this.getRoot())];
+		printStack = new String[this.getHeight(this.getRoot())];
 		// System.out.println("r "+this.getRoot().get());
 		// System.out.println("");
-		// System.out.println("debug2 "+this.getHeight(this, this.getRoot()));
-		for(int i=0; i<arrayRep.length; i++)
-			arrayRep[i] = "";
+		// System.out.println("debug2 lea"+this.getHeight(this, this.getRoot()));
+		for(int i=0; i<printStack.length; i++)
+			printStack[i] = "";
 		printRecurse(0, this.getRoot());
-		return arrayRep;
+		return printStack;
 	}
 	
 	private void printRecurse(int level, TreeNode current)
 	{
 		if(current == null)
 			return;
-		arrayRep[level] += current.get() + " ";
+		printStack[level] += current.get() + " ";
 		printRecurse(level + 1, current.getLeft());
 		printRecurse(level + 1, current.getRight());
 	}

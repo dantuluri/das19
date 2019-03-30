@@ -2,27 +2,67 @@ import java.io.*;
 import java.util.*;
 
 /**
+ * Extra Credit
+ *
  * RadixSort.java
  * 
  * @author Surya Dantuluri
  * @version 1.0
- * @since 1/22/2019
+ * @since 3/24/2019
  */
+
+/*
+Explanation:
+Why do these execution results make sense? Since they take into factor of both length and
+alphabetical order. 
+
+Execution Results:
+---------------------------------
+Unsorted Array: 
+---------------------------------
+First 5 Elements: the and to of a 
+Last 5 Elements: filled servants calling fallen supper 
+---------------------------------
+
+---------------------------------
+Sorted Array: 
+---------------------------------
+First 5 Elements: a i o ah am 
+Last 5 Elements: acquaintance conversation particularly satisfaction circumstances 
+
+*/
 
 public class RadixSort
 {
 	DoublyLinkedList[] buckets = new DoublyLinkedList[]
 	{
-			new DoublyLinkedList(), // 0
-			new DoublyLinkedList(), // 1
-			new DoublyLinkedList(), // 2
-			new DoublyLinkedList(), // 3
-			new DoublyLinkedList(), // 4
-			new DoublyLinkedList(), // 5
-			new DoublyLinkedList(), // 6
-			new DoublyLinkedList(), // 7
-			new DoublyLinkedList(), // 8
-			new DoublyLinkedList()  // 9
+			new DoublyLinkedList(), // a
+			new DoublyLinkedList(), // b
+			new DoublyLinkedList(), // c
+			new DoublyLinkedList(), // d
+			new DoublyLinkedList(), // e
+			new DoublyLinkedList(), // f
+			new DoublyLinkedList(), // g
+			new DoublyLinkedList(), // h
+			new DoublyLinkedList(), // i
+			new DoublyLinkedList(), // j
+			new DoublyLinkedList(), // k
+			new DoublyLinkedList(), // l
+			new DoublyLinkedList(), // m
+			new DoublyLinkedList(), // n
+			new DoublyLinkedList(), // o
+			new DoublyLinkedList(), // p
+			new DoublyLinkedList(), // q
+			new DoublyLinkedList(), // r
+			new DoublyLinkedList(), // s
+			new DoublyLinkedList(), // t
+			new DoublyLinkedList(), // u
+			new DoublyLinkedList(), // v
+			new DoublyLinkedList(), // w
+			new DoublyLinkedList(), // x
+			new DoublyLinkedList(), // y
+			new DoublyLinkedList() // z
+
 		};
 
 		public static void main(String[]args)
@@ -103,24 +143,23 @@ public class RadixSort
 			int bucketIndex, arrayIndex;
 			arraySize = array.size();
 			int maxDigits = radixGetMaxLength(array, arraySize);
-			int pow10 = 1;
+			int pow10 = 0;
 			for(int digitIndex = 0; digitIndex<maxDigits; digitIndex++)
 			{
+				// System.out.println(Arrays.toString(array.toArray()));
+				// System.out.println("main loop "+digitIndex);
 				for(int i = 0;i<arraySize; i++)
 				{
-					if(isValid(array.get(i)))
-					{
-						bucketIndex = Math.abs(Integer.parseInt(array.get(i))/pow10)%10;
-					}
-					else
-					{
-						System.out.println("hello");
-						bucketIndex = Math.abs(array.get(i).length()-(int)(Math.log10(pow10)));
-					}
+					// bucketIndex = Math.abs(array.get(i)/pow10)%10;
+					// System.out.println("in loop: "+i+" arr get: "+array.get(i)+" charat ");
+					// System.out.print(getCharacterAt(array.get(i),pow10));
+					bucketIndex = alphaMap(getCharacterAt(array.get(i),pow10));
+					// System.out.println("ind "+bucketIndex);
 					buckets[bucketIndex].append(new Node(array.get(i)));
 				}
+
 				arrayIndex = 0;
-				for (int i = 0; i < 10; i++) 
+				for (int i = 0; i < 26; i++) 
 				{
 					int bucketSize = buckets[i].size();
 					for (int j = 0; j < bucketSize; j++)
@@ -129,7 +168,8 @@ public class RadixSort
 						arrayIndex++;
 					}
 				}
-				pow10*=10;
+				// System.out.println(Arrays.toString(array.toArray()));
+				pow10+=1;
 				clearBucket();
 			}
 		}
@@ -143,7 +183,7 @@ public class RadixSort
 		
 		if(dll.head==null)
 		{
-			System.out.println("this is empty");
+			// System.out.println("this is empty");
 			return "";
 		}
 		else
@@ -159,33 +199,49 @@ public class RadixSort
 	{
 		buckets = new DoublyLinkedList[]
 		{
-			new DoublyLinkedList(), // 0
-			new DoublyLinkedList(), // 1
-			new DoublyLinkedList(), // 2
-			new DoublyLinkedList(), // 3
-			new DoublyLinkedList(), // 4
-			new DoublyLinkedList(), // 5
-			new DoublyLinkedList(), // 6
-			new DoublyLinkedList(), // 7
-			new DoublyLinkedList(), // 8
-			new DoublyLinkedList()  // 9
+			new DoublyLinkedList(), // a
+			new DoublyLinkedList(), // b
+			new DoublyLinkedList(), // c
+			new DoublyLinkedList(), // d
+			new DoublyLinkedList(), // e
+			new DoublyLinkedList(), // f
+			new DoublyLinkedList(), // g
+			new DoublyLinkedList(), // h
+			new DoublyLinkedList(), // i
+			new DoublyLinkedList(), // j
+			new DoublyLinkedList(), // k
+			new DoublyLinkedList(), // l
+			new DoublyLinkedList(), // m
+			new DoublyLinkedList(), // n
+			new DoublyLinkedList(), // o
+			new DoublyLinkedList(), // p
+			new DoublyLinkedList(), // q
+			new DoublyLinkedList(), // r
+			new DoublyLinkedList(), // s
+			new DoublyLinkedList(), // t
+			new DoublyLinkedList(), // u
+			new DoublyLinkedList(), // v
+			new DoublyLinkedList(), // w
+			new DoublyLinkedList(), // x
+			new DoublyLinkedList(), // y
+			new DoublyLinkedList() // z
 		};
 	}
 
-	public static boolean isValid(String input) 
+	public String getCharacterAt(String str, int n)
 	{
-		try 
-		{ 
-			Integer.parseInt(input); 
-		} 
-		catch(NumberFormatException ne) 
-		{ 
-			return false; 
-		} 
-		catch(NullPointerException ne) {
-			return false;
-		}
-		return true;
+		if((str.length()-(n+1))<0)
+			return "";
+		else
+			return "" + str.charAt(str.length()-(n+1));
+	}
+
+	public int alphaMap(String map)
+	{
+		// System.out.println("MAP: "+map);
+		if(map.length()==0)
+			return 0;
+		return((int)(map.charAt(0)) - 96);
 	}
 
 	public int radixGetMaxLength(ArrayList<String> array, int arraySize)
@@ -206,9 +262,8 @@ public class RadixSort
 
 		int digits = 0;
 		while (value.length()!=0) {
-			System.out.println("hello");
 			digits++;
-			value.substring(0, value.length() - 1);
+			value = value.substring(0, value.length() - 1);
 		}
 		return digits;
 	}
